@@ -4,7 +4,7 @@
  */
 
 import gsap from 'gsap';
-import { splitWords } from '../utils/split-words.js';
+import { splitWords } from './split-words.js';
 
 const WORD_DEFAULTS = {
   duration: 2,
