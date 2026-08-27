@@ -1,5 +1,5 @@
 /**
- * SOBRE - segunda dobra.
+ * ABOUT - segunda dobra.
  *
  * Duas responsabilidades:
  *  - amarrar o fundo em WebGL ao ciclo de vida da secao, para o shader so
@@ -15,8 +15,8 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { createSkyline } from '../modules/skyline.js';
 import { splitLetters } from '../utils/split-letters.js';
 
-const MODULE_SELECTOR = '[data-module="sobre"]';
-const CANVAS_SELECTOR = '[data-sobre="fundo"]';
+const MODULE_SELECTOR = '[data-module="about"]';
+const CANVAS_SELECTOR = '[data-about="fundo"]';
 
 /* Amarrado ao scroll: sem easing proprio, senao briga com o do scrub. */
 const LINEAR = 'none';
@@ -59,7 +59,7 @@ const coletar = (root) => {
 
   /* O container, e nao o video: quem entra e sai da tela e o bloco todo. */
   const foto = root.querySelector('.sobre__foto');
-  const filme = root.querySelector('[data-sobre="filme"]');
+  const filme = root.querySelector('[data-about="filme"]');
 
   return { bloco, marca, texto, foto, filme };
 };
@@ -182,7 +182,7 @@ const construirSaida = ({ marca, texto, foto }) => {
  * @param {HTMLElement} [root]
  * @returns {{ destroy: () => void } | null}
  */
-export const initSobre = (root = document.querySelector(MODULE_SELECTOR)) => {
+export const initAbout = (root = document.querySelector(MODULE_SELECTOR)) => {
   if (!root) return null;
 
   const partes = coletar(root);

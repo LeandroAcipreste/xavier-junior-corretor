@@ -28,9 +28,9 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="src/header/header.css" />
     <link rel="stylesheet" href="src/hero/hero.css" />
-    <link rel="stylesheet" href="src/sobre/sobre.css" />
-    <link rel="stylesheet" href="src/rodape/rodape.css" />
-    <link rel="stylesheet" href="src/consentimento/consentimento.css" />
+    <link rel="stylesheet" href="src/about/about.css" />
+    <link rel="stylesheet" href="src/footer/footer.css" />
+    <link rel="stylesheet" href="src/consent/consent.css" />
 
     <script type="importmap">
       {
@@ -42,7 +42,7 @@
       }
     </script>
     <!-- Entrada propria, antes do main: o aviso de cookies nao espera a CDN. -->
-    <script type="module" src="src/consentimento/bootstrap.js"></script>
+    <script type="module" src="src/consent/bootstrap.js"></script>
     <script type="module" src="main.js"></script>
   </head>
 
@@ -237,9 +237,9 @@
       <!-- =============== /HERO ================= -->
 
       <!-- ================= SOBRE ================= -->
-      <section class="sobre" id="sobre" data-module="sobre">
+      <section class="sobre" id="sobre" data-module="about">
         <div class="sobre__palco">
-          <canvas class="sobre__fundo" data-sobre="fundo" aria-hidden="true"></canvas>
+          <canvas class="sobre__fundo" data-about="fundo" aria-hidden="true"></canvas>
           <div class="sobre__veu" aria-hidden="true"></div>
           <div class="container">
           <div class="sobre__inner">
@@ -283,7 +283,7 @@
             <div class="sobre__foto">
               <video
                 class="sobre__video"
-                data-sobre="filme"
+                data-about="filme"
                 src="public/img/video-xavier-scroll.mp4"
                 width="720"
                 height="1280"
@@ -369,7 +369,7 @@
     <!-- =============== /RODAPE ================= -->
 
     <!-- ============= CONSENTIMENTO ============= -->
-    <div class="consent" data-module="consentimento">
+    <div class="consent" data-module="consent">
       <!-- Aviso -->
       <section class="consent__aviso" data-consent="aviso" hidden aria-label="Aviso de cookies">
         <div class="consent__aviso-inner">

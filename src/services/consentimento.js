@@ -3,7 +3,7 @@
  *
  * Guarda a decisao do visitante e avisa quem precisa saber (Google Consent
  * Mode v2 e Meta). Nao sabe nada de DOM: a interface fica em
- * src/consentimento/.
+ * src/consent/.
  *
  * A decisao guardada tem versao. Quando a politica mudar de verdade, subir
  * VERSAO faz o aviso voltar a aparecer, que e o que a LGPD espera de um

@@ -1,5 +1,5 @@
 /**
- * CONSENTIMENTO - interface.
+ * CONSENT - interface.
  *
  * Duas peças: o aviso que sobe do rodape e o painel de preferencias. A
  * politica vive em pagina propria (/politica-de-privacidade.html), e nao em
@@ -23,7 +23,7 @@ import {
 } from '../services/consentimento.js';
 import { lockScroll, unlockScroll } from '../services/travar-scroll.js';
 
-const MODULE_SELECTOR = '[data-module="consentimento"]';
+const MODULE_SELECTOR = '[data-module="consent"]';
 
 const CLASSE = { aberto: 'is-aberto' };
 
@@ -39,7 +39,7 @@ const partes = (root) => ({
  * @param {HTMLElement} [root]
  * @returns {{ destroy: () => void } | null}
  */
-export const initConsentimento = (root = document.querySelector(MODULE_SELECTOR)) => {
+export const initConsent = (root = document.querySelector(MODULE_SELECTOR)) => {
   if (!root) return null;
 
   const el = partes(root);

@@ -15,10 +15,10 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { createSmoothScroll } from './src/services/scroll.js';
 import { initHeader } from './src/header/header.js';
 import { initHero } from './src/hero/hero.js';
-import { initSobre } from './src/sobre/sobre.js';
+import { initAbout } from './src/about/about.js';
 
 /* Modulos de secao, na ordem em que aparecem na pagina. */
-const MODULES = [initHeader, initHero, initSobre];
+const MODULES = [initHeader, initHero, initAbout];
 
 const root = document.documentElement;
 

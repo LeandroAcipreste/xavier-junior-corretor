@@ -9,6 +9,6 @@
  * De quebra, se a CDN estiver fora do ar, o aviso continua funcionando.
  */
 
-import { initConsentimento } from './consentimento.js';
+import { initConsent } from './consent.js';
 
-initConsentimento();
+initConsent();
