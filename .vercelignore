@@ -1,5 +1,5 @@
 # Servidor de desenvolvimento local: a Vercel serve os estaticos direto.
-server.js
+dev/
 
 # Pastas de trabalho que nao vao para producao.
 design/

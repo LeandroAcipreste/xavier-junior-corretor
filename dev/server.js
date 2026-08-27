@@ -2,7 +2,7 @@
  * Servidor estatico de desenvolvimento.
  *
  * A pagina usa ES Modules e importmap, entao nao abre por file:// - precisa de
- * HTTP. Uso: node server.js [porta]   (padrao 8177)
+ * HTTP. Uso: node dev/server.js [porta]   (padrao 8177)
  *
  * Atende requisicao por faixa (Range). Isso nao e luxo: sem ela o navegador
  * nao consegue buscar dentro de um video, e o `currentTime` simplesmente nao
@@ -14,7 +14,8 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT = __dirname;
+/* O servidor vive em dev/, mas serve a raiz do projeto. */
+const ROOT = path.join(__dirname, '..');
 const PORT = Number(process.argv[2] || 8177);
 
 const MIME = {
