@@ -1,0 +1,303 @@
+/* =========================================================================
+   CONSENTIMENTO - aviso de cookies, preferencias e politica
+   ========================================================================= */
+
+.consent {
+  position: relative;
+  z-index: 200;
+}
+
+/* -------------------------------------------------------------------------
+   Aviso que sobe do rodape
+   ---------------------------------------------------------------------- */
+.consent__aviso {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  padding: 2.4rem 2.5rem;
+  background-color: var(--color-night);
+  border-top: 1px solid rgba(216, 168, 56, 0.35);
+  box-shadow: 0 -1.2rem 3.2rem rgba(0, 0, 0, 0.45);
+  transform: translateY(100%);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+@media (min-width: 768px) {
+  .consent__aviso {
+    padding: 3rem var(--side-gap);
+  }
+}
+
+.consent__aviso.is-aberto {
+  transform: translateY(0);
+}
+
+.consent__aviso-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: var(--container-max);
+}
+
+@media (min-width: 1024px) {
+  .consent__aviso-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+}
+
+.consent__titulo {
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.consent__texto {
+  margin-top: 0.8rem;
+  max-width: 78rem;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@media (min-width: 768px) {
+  .consent__titulo {
+    font-size: 2.2rem;
+  }
+
+  .consent__texto {
+    font-size: 1.6rem;
+  }
+}
+
+/* E um <button> porque abre um painel, nao navega. O reset e o que faz ele
+   parecer o link que de fato e. */
+.consent__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
+.consent__link:hover {
+  text-decoration: none;
+}
+
+/* -------------------------------------------------------------------------
+   Botoes
+
+   Aceitar e recusar tem o MESMO peso visual de proposito. Deixar o recusar
+   mais discreto e o padrao escuro que as diretrizes proibem.
+   ---------------------------------------------------------------------- */
+.consent__acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .consent__acoes {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.consent__botao {
+  padding: 1.3rem 2.6rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 100px;
+  background-color: transparent;
+  color: var(--color-gold);
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color 0.35s, color 0.35s;
+}
+
+.consent__botao--cheio {
+  background-color: var(--color-gold);
+  color: var(--color-navy);
+}
+
+.consent__botao--texto {
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+@media (hover: hover) {
+  .consent__botao {
+    cursor: pointer;
+  }
+
+  .consent__botao:hover {
+    background-color: var(--color-gold);
+    color: var(--color-navy);
+  }
+
+  .consent__botao--cheio:hover {
+    background-color: #e6b644;
+  }
+
+  .consent__botao--texto:hover {
+    background-color: transparent;
+    color: #fff;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Paineis: preferencias e politica
+   ---------------------------------------------------------------------- */
+.consent__painel {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: rgba(4, 10, 18, 0.72);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.consent__painel.is-aberto {
+  opacity: 1;
+}
+
+.consent__caixa {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 76rem;
+  max-height: 86vh;
+  background-color: var(--color-night);
+  border: 1px solid rgba(216, 168, 56, 0.3);
+  border-radius: 0.6rem;
+  box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.55);
+}
+
+.consent__caixa-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.6rem 2.6rem 1.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.consent__caixa-corpo {
+  padding: 2.4rem 2.6rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.consent__caixa-base {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2rem 2.6rem 2.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 640px) {
+  .consent__caixa-base {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.consent__fechar {
+  flex-shrink: 0;
+  padding: 0.6rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.consent__fechar:hover {
+  color: var(--color-gold);
+}
+
+/* -------------------------------------------------------------------------
+   Categorias
+   ---------------------------------------------------------------------- */
+.consent__categoria {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.4rem;
+  padding: 1.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.consent__categoria:last-child {
+  border-bottom: 0;
+}
+
+.consent__caixa-marca {
+  margin-top: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  accent-color: var(--color-gold);
+  cursor: pointer;
+}
+
+.consent__caixa-marca:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.consent__categoria-nome {
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.consent__categoria-fixa {
+  margin-left: 0.8rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.consent__categoria-desc {
+  margin-top: 0.6rem;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Marca o que o cliente precisa preencher antes de publicar. */
+.consent__pendente {
+  padding: 0.1em 0.45em;
+  border-radius: 0.3rem;
+  background-color: rgba(216, 168, 56, 0.18);
+  border: 1px dashed rgba(216, 168, 56, 0.6);
+  color: var(--color-gold);
+  font-weight: 600;
+  white-space: nowrap;
+}

@@ -1,0 +1,276 @@
+/* =========================================================================
+   HERO - secao de abertura. A casa fica parada; o que se move no scroll sao
+   as nuvens, que sobem, e a fumaca, que entrega a tela para a dobra seguinte.
+   Depende dos tokens e do container definidos em style.css
+   ========================================================================= */
+
+.hero {
+  /* Onde o telhado comeca. O conteudo se apoia neste mesmo valor para nunca
+     pousar em cima da casa, em qualquer altura de tela. */
+  --hero-house-top: 60vh;
+
+  position: relative;
+  height: 280vh;
+  margin-bottom: -100vh;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    height: 350vh;
+  }
+}
+
+/* Sendo a primeira secao, passa por baixo do header transparente.
+   Os valores acompanham a altura do .header__content. */
+.hero:first-child {
+  margin-top: -8.4rem;
+}
+
+@media (min-width: 768px) {
+  .hero:first-child {
+    margin-top: -7.8rem;
+  }
+}
+
+/* Ate o JS assumir, a secao fica oculta para nao piscar o estado inicial.
+   Sem JS a regra nao se aplica e o hero aparece normalmente. */
+.js .hero {
+  visibility: hidden;
+}
+
+/* -------------------------------------------------------------------------
+   Palco fixo
+   ---------------------------------------------------------------------- */
+.hero__top {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__back {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* -------------------------------------------------------------------------
+   Casa
+   ---------------------------------------------------------------------- */
+.hero__house {
+  position: absolute;
+  top: var(--hero-house-top);
+  left: 0;
+  right: 0;
+  height: 33.4rem;
+  z-index: 1;
+  transform-origin: bottom center;
+}
+
+@media (min-width: 768px) {
+  .hero__house {
+    height: 170.8rem;
+  }
+}
+
+.hero__house img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* -------------------------------------------------------------------------
+   Nuvens
+   ---------------------------------------------------------------------- */
+.hero__clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.hero__cloud {
+  position: absolute;
+  z-index: 2;
+}
+
+.hero__cloud:first-child {
+  top: 33.7rem;
+  left: -57.2rem;
+  width: 70.2rem;
+  height: 29.8rem;
+}
+
+@media (min-width: 768px) {
+  .hero__cloud:first-child {
+    top: 25%;
+    left: -33.72rem;
+    width: 112.4rem;
+    height: 47.7rem;
+  }
+}
+
+.hero__cloud:last-child {
+  top: 37.12rem;
+  right: -41.2rem;
+  width: 55.7rem;
+  height: 23.6rem;
+}
+
+@media (min-width: 768px) {
+  .hero__cloud:last-child {
+    top: 20%;
+    right: -33.72rem;
+    width: 93.6rem;
+    height: 39.7rem;
+  }
+}
+
+.hero__cloud img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* -------------------------------------------------------------------------
+   Fumaca e degrade de saida
+   ---------------------------------------------------------------------- */
+.hero__smoke {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45rem;
+  z-index: 3;
+}
+
+@media (min-width: 768px) {
+  .hero__smoke {
+    height: 62rem;
+  }
+}
+
+.hero__top .hero__smoke {
+  transform: translateY(70%);
+}
+
+.hero__smoke img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero__overlap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100vh;
+  pointer-events: none;
+}
+
+.hero__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10rem;
+  z-index: 3;
+  /* Entrega a tela para a dobra seguinte, que e escura. */
+  background: linear-gradient(180deg, rgba(8, 20, 37, 0) 0%, rgba(8, 20, 37, 0.75) 55%, var(--color-night) 100%);
+}
+
+@media (min-width: 768px) {
+  .hero__overlay {
+    height: 30.9rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Conteudo
+   ---------------------------------------------------------------------- */
+/* O padding-top devolve a altura do header, que a secao consumiu com o
+   margin-top negativo. Sem ele um titulo de tres linhas sobe por baixo da nav. */
+.hero__content {
+  position: relative;
+  /* Acima da casa (1) e das nuvens (2), abaixo da fumaca (3), que precisa
+     continuar velando o texto na saida da secao. */
+  z-index: 2;
+  display: grid;
+  align-items: center;
+  height: 100%;
+  padding-top: 8.4rem;
+  /* Reserva a faixa da casa mais uma folga de 3vh, em vez de um valor fixo:
+     assim o bloco continua acima do telhado em telas baixas. */
+  padding-bottom: calc(100vh - var(--hero-house-top) + 3vh);
+}
+
+@media (min-width: 768px) {
+  .hero__content {
+    padding-top: 7.8rem;
+  }
+}
+
+.hero__title h1 {
+  font-weight: 700;
+  /* A escala de rem depende so da largura. Sendo esta frase de duas a tres
+     linhas, em telas baixas isso estouraria a altura: dai o teto em vh. */
+  font-size: min(5.4rem, 8vh);
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-align: center;
+  /* Sem isto a frase quebra deixando a ultima palavra sozinha na segunda linha. */
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .hero__title h1 {
+    font-size: min(14rem, 13vh);
+  }
+}
+
+.hero__text {
+  margin: 1.5rem 0 0;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 150%;
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .hero__text {
+    margin: 2rem 0 0;
+    font-size: 3.2rem;
+    line-height: 130%;
+    letter-spacing: -0.01em;
+  }
+}
+
+.hero__text .em {
+  color: var(--color-text-muted);
+}
+
+.hero__actions {
+  margin: 3rem 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero__actions {
+    margin: 4rem 0 0;
+  }
+}

@@ -1,0 +1,512 @@
+/* =========================================================================
+   GLOBAL - tipografia, tokens, reset e componentes compartilhados
+   Estilos de secao ficam em src/<secao>/<secao>.css
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. Fontes
+   ---------------------------------------------------------------------- */
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("src/assets/fonts/instrument-sans-latin.woff2") format("woff2");
+  unicode-range: u+00??, u+0131, u+0152-0153, u+02bb-02bc, u+02c6, u+02da,
+    u+02dc, u+0304, u+0308, u+0329, u+2000-206f, u+20ac, u+2122, u+2191,
+    u+2193, u+2212, u+2215, u+feff, u+fffd;
+}
+
+@font-face {
+  font-family: "Instrument Sans Fallback";
+  src: local("Arial");
+  ascent-override: 94.42%;
+  descent-override: 24.33%;
+  line-gap-override: 0%;
+  size-adjust: 102.74%;
+}
+
+@font-face {
+  font-family: "Lora";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("src/assets/fonts/lora-latin.woff2") format("woff2");
+  unicode-range: u+00??, u+0131, u+0152-0153, u+02bb-02bc, u+02c6, u+02da,
+    u+02dc, u+0304, u+0308, u+0329, u+2000-206f, u+20ac, u+2122, u+2191,
+    u+2193, u+2212, u+2215, u+feff, u+fffd;
+}
+
+@font-face {
+  font-family: "Lora Fallback";
+  src: local("Times New Roman");
+  ascent-override: 87.33%;
+  descent-override: 23.78%;
+  line-gap-override: 0%;
+  size-adjust: 115.2%;
+}
+
+/* -------------------------------------------------------------------------
+   2. Tokens
+   ---------------------------------------------------------------------- */
+:root {
+  --font-primary: "Instrument Sans", "Instrument Sans Fallback", Arial, sans-serif;
+  --font-secondary: "Lora", "Lora Fallback", "Times New Roman", serif;
+
+  /* Navy e ouro. O ouro foi amostrado da logomarca (tom dominante do
+     monograma); o navy foi escolhido para o par passar nos dois sentidos:
+     ouro sobre navy 7,4:1 e navy sobre ouro 7,4:1, navy sobre branco 16,3:1.
+     Ouro como texto em fundo claro reprova (2,2:1), entao nunca use assim. */
+  --color-navy: #0d2137;
+  /* Azul da noite: fundo da segunda dobra e alvo do degrade de saida da hero. */
+  --color-night: #081425;
+  --color-gold: #d8a838;
+
+  --color-text: var(--color-navy);
+  /* Corpo de texto: navy cheio cansa em paragrafo longo, e 55% reprova
+     (3,8:1). A 75% da 7,2:1 sobre branco e continua suave. */
+  --color-text-body: rgba(13, 33, 55, 0.75);
+  --color-text-muted: rgba(13, 33, 55, 0.55);
+  --color-text-soft: rgba(13, 33, 55, 0.4);
+  --color-bg: #fff;
+  --color-surface: #f2f4f7;
+  --color-line: rgba(13, 33, 55, 0.12);
+
+  --side-gap: 10rem;
+  --container-max: 1920px;
+  --scrollbar-width: 0px;
+  --full-width: calc(100vw + var(--scrollbar-width, 0px));
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-overshoot: cubic-bezier(0.34, 3.56, 0.64, 1);
+}
+
+/* -------------------------------------------------------------------------
+   3. Reset
+   ---------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Escala fluida: 1rem = 10px em 1920px. Todo o layout usa rem sobre esta base. */
+html {
+  font-size: 2.6666666667vw;
+  height: 100%;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 0.5208333333vw;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+html.is-scroll-locked {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  font-family: var(--font-primary);
+  font-style: normal;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.page-main {
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+address,
+blockquote,
+em,
+figure {
+  margin: 0;
+  padding: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  letter-spacing: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe {
+  vertical-align: middle;
+}
+
+img {
+  border-style: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+}
+
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+}
+
+/* O !important nao e preguica: `[hidden]` tem especificidade de atributo (0,1,0)
+   e perde para qualquer classe que declare `display` e venha depois na cascata.
+   Um painel `hidden` com `display: flex` continua ocupando a tela inteira e
+   engole todo clique da pagina, sem aparecer e sem dar erro. Ja aconteceu. */
+[hidden] {
+  display: none !important;
+}
+
+* {
+  outline-color: var(--color-text);
+}
+
+/* -------------------------------------------------------------------------
+   4. Tipografia utilitaria
+   ---------------------------------------------------------------------- */
+.em {
+  color: var(--color-text-soft);
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------
+   5. Container
+   ---------------------------------------------------------------------- */
+.container {
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  max-width: var(--container-max);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--side-gap);
+  }
+
+  .container--wide {
+    padding: 0 4rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   6. Botao pilula (compartilhado entre secoes)
+   ---------------------------------------------------------------------- */
+.button-round {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 1.4rem 2.4rem;
+  height: auto;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: transform 0.3s, background-color 0.4s, color 0.4s;
+}
+
+@media (min-width: 768px) {
+  .button-round {
+    padding: 1.54rem 3rem;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+}
+
+.button-round:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Navy cheio com letra dourada; no hover as duas cores trocam de lugar. */
+.button-round--primary {
+  background-color: var(--color-navy);
+  color: var(--color-gold);
+}
+
+.button-round--secondary {
+  background-color: var(--color-gold);
+  color: var(--color-navy);
+}
+
+.button-round__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  overflow: hidden;
+}
+
+/* Rollover: o pseudo-elemento repete o texto via data-text e sobe no hover. */
+.button-round__text {
+  overflow: hidden;
+}
+
+.button-round__text span {
+  position: relative;
+  display: block;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+
+.button-round__text span::after {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+}
+
+.button-round__icon {
+  --size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-width: var(--size);
+  width: var(--size);
+  height: var(--size);
+}
+
+@media (hover: hover) {
+  .button-round {
+    cursor: pointer;
+  }
+
+  .button-round:hover {
+    transform: scaleX(1.02);
+    transition: transform 0.7s var(--ease-overshoot), background-color 0.4s, color 0.4s;
+  }
+
+  .button-round--primary:hover {
+    background-color: var(--color-gold);
+    color: var(--color-navy);
+  }
+
+  .button-round--secondary:hover {
+    background-color: var(--color-navy);
+    color: var(--color-gold);
+  }
+
+  .button-round:hover .button-round__text span {
+    transform: translateY(-105%);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   7. Utilitarios de viewport
+   ---------------------------------------------------------------------- */
+.desktop-only {
+  display: none !important;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: initial !important;
+    pointer-events: auto;
+  }
+}
+
+.mobile-only {
+  display: none !important;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-only {
+    display: initial !important;
+    pointer-events: auto;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   8. Split de palavras (usado pelas animacoes de entrada)
+   ---------------------------------------------------------------------- */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.15em;
+  margin: -0.15em;
+}
+
+.split-word__inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* -------------------------------------------------------------------------
+   8a. Barra de rolagem
+
+   Trilho navy, punho e setas em ouro. Sao duas sintaxes, e elas NAO convivem:
+   quando `scrollbar-color` esta declarado, o Chrome assume a barra padrao e
+   **ignora todas as regras ::-webkit-scrollbar**. Por isso a propriedade
+   padrao fica escopada para quem nao entende os seletores do WebKit, que na
+   pratica e o Firefox. Ali nao da para pintar as setas; no Chrome da.
+   ---------------------------------------------------------------------- */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: var(--color-gold) var(--color-navy);
+    scrollbar-width: auto;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-gold);
+  /* A borda na cor do trilho e o que afina o punho sem encolher a area de clique. */
+  border: 3px solid var(--color-navy);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #e6b644;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--color-navy);
+}
+
+/* As setas.
+
+   O WebKit reserva QUATRO encaixes de seta (subir e descer em cada ponta).
+   Ligar o seletor generico acende os quatro e da setas dobradas no topo.
+   `display: none` nao resolve: botao de barra de rolagem ignora. Quem colapsa
+   e tamanho zero, e so os dois encaixes desejados ganham tamanho de volta. */
+::-webkit-scrollbar-button {
+  display: block;
+  height: 0;
+  width: 0;
+  background-color: var(--color-navy);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 9px 9px;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment {
+  height: 14px;
+  width: 14px;
+}
+
+/* O ouro vai embutido no SVG: data URI nao le variavel de CSS. */
+::-webkit-scrollbar-button:vertical:start:decrement {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23d8a838' d='M6 3.2 10.4 8.6H1.6z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23d8a838' d='M6 8.8 1.6 3.4h8.8z'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement:hover,
+::-webkit-scrollbar-button:vertical:end:increment:hover {
+  background-color: #14304d;
+}
+
+/* -------------------------------------------------------------------------
+   8b. Espaco provisorio
+
+   PROVISORIO: bloco vazio que existe so para dar rolagem a saida da dobra
+   anterior. Trocar pela proxima secao de verdade e apagar isto.
+   ---------------------------------------------------------------------- */
+.espaco {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  background-color: var(--color-night);
+}
+
+/* -------------------------------------------------------------------------
+   9. Scroll suave (Lenis)
+   ---------------------------------------------------------------------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   10. Acessibilidade
+
+   Nao ha aqui um bloco global de prefers-reduced-motion zerando transicoes.
+   Ele existia e apagava micro-interacoes que ninguem quer perder, como a
+   rolagem do texto da nav e a troca de cor dos botoes, deixando a impressao
+   de que o hover nao funcionava.
+
+   Movimento grande continua sendo respeitado, mas onde e decidido: hero.js e
+   header.js consultam prefers-reduced-motion e pulam a coreografia de scroll
+   e a animacao do menu.
+   ---------------------------------------------------------------------- */

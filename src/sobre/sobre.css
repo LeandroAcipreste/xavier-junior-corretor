@@ -1,0 +1,337 @@
+/* =========================================================================
+   SOBRE - segunda dobra. Cidade animada em WebGL ao fundo, marca em ouro
+   sobre ela. Sobe por cima da hero pelo margin-bottom negativo dela, e e
+   essa subida que faz a troca de dobra.
+   ========================================================================= */
+
+.sobre {
+  position: relative;
+  /* Acima da hero, que fica por baixo por causa do margin-bottom negativo. */
+  z-index: 2;
+  /* Vale como cor de espera e como plano B quando nao ha WebGL. */
+  background-color: var(--color-night);
+  background-image: linear-gradient(180deg, #081425 0%, #102c48 62%, #071019 100%);
+  color: #fff;
+}
+
+/* O palco prende a cena enquanto a secao passa, e essa sobra de altura e o
+   que da um instante de repouso entre a entrada e a saida do conteudo.
+   Sem ela as duas se encostam e nada fica parado para ser lido. */
+.sobre__palco {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .sobre {
+    min-height: 320vh;
+  }
+
+  .sobre__palco {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Fundo
+   ---------------------------------------------------------------------- */
+.sobre__fundo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+/* Veu por cima do shader: garante contraste do texto em qualquer quadro. */
+.sobre__veu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(6, 16, 28, 0.82) 0%, rgba(6, 16, 28, 0.46) 48%, rgba(6, 16, 28, 0.10) 100%),
+    linear-gradient(180deg, var(--color-night) 0%, rgba(6, 16, 28, 0.62) 11%, rgba(6, 16, 28, 0) 34%);
+}
+
+@media (max-width: 767px) {
+  .sobre__veu {
+    background: linear-gradient(180deg, rgba(6, 16, 28, 0.85) 0%, rgba(6, 16, 28, 0.6) 55%, rgba(6, 16, 28, 0.9) 100%);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Grade
+   ---------------------------------------------------------------------- */
+.sobre__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-items: end;
+  gap: 4rem;
+  min-height: 100vh;
+  padding: 8rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .sobre__inner {
+    grid-template-columns: 1fr;
+    gap: 8rem;
+    padding: 12rem 0 0;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Coluna da esquerda: marca em cima, apresentacao embaixo
+   ---------------------------------------------------------------------- */
+.sobre__col {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  padding-bottom: 8rem;
+}
+
+@media (min-width: 768px) {
+  .sobre__col {
+    gap: 5rem;
+    padding-bottom: 12rem;
+    /* O video ocupa a direita; o texto para antes de encostar nele. */
+    max-width: 52%;
+  }
+}
+
+.sobre__marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* O simbolo e as linhas de baixo ficam centrados sobre o nome, como no
+   logotipo. Para isso o bloco encolhe ate a largura do nome (o item mais
+   largo) e so entao encosta a esquerda da coluna. */
+@media (min-width: 768px) {
+  .sobre__marca {
+    align-self: flex-start;
+    width: fit-content;
+  }
+}
+
+.sobre__simbolo {
+  display: block;
+  width: auto;
+  height: 7.6rem;
+}
+
+@media (min-width: 768px) {
+  .sobre__simbolo {
+    height: 9.6rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   O nome, em ouro escovado com contorno solido, como no logotipo
+
+   O degrade entra por background-clip: text, com a letra transparente. O
+   contorno vem do -webkit-text-stroke a 2px, e o paint-order joga o traco
+   para tras do preenchimento: sobra exatamente 1px do lado de fora.
+   ---------------------------------------------------------------------- */
+.sobre__nome {
+  margin-top: 1.6rem;
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  font-size: 4.2rem;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+
+  color: transparent;
+  background-image: linear-gradient(
+    180deg,
+    #8a6620 0%,
+    #e8bd4e 12%,
+    #f9e9a4 28%,
+    #fffbe6 44%,
+    #f2d271 56%,
+    #c9992e 72%,
+    #eccb6c 88%,
+    #a97f22 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-stroke: 2px var(--color-navy);
+  paint-order: stroke fill;
+
+  filter: drop-shadow(0 0.2rem 0.5rem rgba(0, 0, 0, 0.5));
+}
+
+@media (min-width: 768px) {
+  .sobre__nome {
+    margin-top: 2rem;
+    font-size: 6.4rem;
+  }
+}
+
+.sobre__fio {
+  width: 6rem;
+  height: 3px;
+  margin: 1.8rem 0;
+  border: 0;
+  border-radius: 9999px;
+  background-color: var(--color-gold);
+}
+
+@media (min-width: 768px) {
+  .sobre__fio {
+    width: 8rem;
+    margin: 2.4rem 0;
+  }
+}
+
+.sobre__tipo {
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .sobre__tipo {
+    font-size: 1.8rem;
+  }
+}
+
+.sobre__creci {
+  margin-top: 0.8rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (min-width: 768px) {
+  .sobre__creci {
+    font-size: 1.5rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Apresentacao
+   ---------------------------------------------------------------------- */
+.sobre__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 62rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .sobre__texto {
+    gap: 2rem;
+    text-align: left;
+  }
+}
+
+.sobre__saudacao {
+  font-weight: 700;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .sobre__saudacao {
+    font-size: 3.2rem;
+  }
+}
+
+.sobre__paragrafo {
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (min-width: 768px) {
+  .sobre__paragrafo {
+    font-size: 1.9rem;
+  }
+}
+
+.sobre__paragrafo strong {
+  font-weight: 600;
+  color: var(--color-gold);
+}
+
+/* -------------------------------------------------------------------------
+   Video
+
+   O video ja vem com fundo escuro, quase o mesmo da secao (medido nos cantos:
+   #08121d a #111920, contra #081425 daqui).
+
+   No desktop ele nao e uma caixa flutuante: encosta no topo e na base do
+   palco e SANGRA para fora da direita da tela. Assim duas das quatro bordas
+   deixam de existir em qualquer largura, e sobram so a esquerda e o topo para
+   esfumar. Caixa flutuante sempre denuncia a emenda em algum tamanho de tela.
+   ---------------------------------------------------------------------- */
+.sobre__foto {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sobre__video {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 54rem;
+  aspect-ratio: 720 / 1280;
+
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 5%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 5%, #000 88%, transparent 100%);
+  mask-composite: intersect;
+}
+
+@media (min-width: 768px) {
+  .sobre__foto {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Escapa o respiro lateral do container e ainda sangra para fora da tela:
+       a borda direita nunca aparece, em nenhuma largura. */
+    right: calc(-1 * var(--side-gap) - 2vw);
+    width: auto;
+    pointer-events: none;
+  }
+
+  .sobre__video {
+    height: 100%;
+    aspect-ratio: auto;
+
+    /* So esquerda e topo. Direita e base estao fora da tela. */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 24%, #000 100%),
+      linear-gradient(to bottom, transparent 0%, #000 9%, #000 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 24%, #000 100%),
+      linear-gradient(to bottom, transparent 0%, #000 9%, #000 100%);
+  }
+}

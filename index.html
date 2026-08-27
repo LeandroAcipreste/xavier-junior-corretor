@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Corretor Xavier</title>
+    <meta
+      name="description"
+      content="Assessoria imobiliaria com acompanhamento do primeiro contato ate a entrega das chaves."
+    />
+
+    <!-- Marca que ha JS antes do primeiro pixel. Ver o cabecalho do arquivo. -->
+    <script src="src/services/marcar-js.js"></script>
+
+    <!-- Estado de consentimento antes de tudo. Ver o cabecalho do arquivo. -->
+    <script src="src/services/consent-default.js"></script>
+
+    <!-- Icone da aba: monograma dourado sobre navy, porque ouro sozinho
+         desaparece na aba branca do navegador. -->
+    <link rel="icon" type="image/png" sizes="32x32" href="public/img/icone-32.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="public/img/icone-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="public/img/icone-180.png" />
+    <meta name="theme-color" content="#0d2137" />
+
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="src/assets/fonts/instrument-sans-latin.woff2" />
+    <link rel="preload" as="image" href="src/assets/images/hero-house.png" />
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/header/header.css" />
+    <link rel="stylesheet" href="src/hero/hero.css" />
+    <link rel="stylesheet" href="src/sobre/sobre.css" />
+    <link rel="stylesheet" href="src/rodape/rodape.css" />
+    <link rel="stylesheet" href="src/consentimento/consentimento.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/index.js",
+          "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/ScrollTrigger.js",
+          "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.mjs"
+        }
+      }
+    </script>
+    <!-- Entrada propria, antes do main: o aviso de cookies nao espera a CDN. -->
+    <script type="module" src="src/consentimento/bootstrap.js"></script>
+    <script type="module" src="main.js"></script>
+  </head>
+
+  <body class="page">
+    <!-- ================ HEADER ================ -->
+    <header class="header header--transparent" data-module="header" data-overlay="#hero">
+      <div class="container">
+        <div class="header__content">
+          <div class="header__logo">
+            <a class="header__logo-link" href="/" aria-label="Corretor Xavier, pagina inicial">
+              <img
+                class="header__logo-img"
+                src="public/img/logo-xavier-240.webp"
+                alt="Corretor Xavier"
+                width="240"
+                height="224"
+                decoding="async"
+              />
+            </a>
+          </div>
+
+          <nav class="header__nav" aria-label="Navegacao principal">
+            <div class="header__nav-item">
+              <a class="header__nav-link" href="#sobre"><span data-text="Sobre">Sobre</span></a>
+            </div>
+            <div class="header__nav-item">
+              <a class="header__nav-link" href="#comprar"><span data-text="Compre sua casa">Compre sua casa</span></a>
+            </div>
+            <div class="header__nav-item">
+              <a class="header__nav-link" href="#anunciar"><span data-text="Anuncie sua casa">Anuncie sua casa</span></a>
+            </div>
+            <div class="header__nav-item">
+              <a class="header__nav-link" href="#visita"><span data-text="Agende uma visita">Agende uma visita</span></a>
+            </div>
+          </nav>
+
+          <div class="header__actions">
+            <a class="button-round button-round--primary header__login" href="#login">
+              <span class="button-round__content">
+                <span class="button-round__text">
+                  <span data-text="Login">Login</span>
+                </span>
+              </span>
+            </a>
+          </div>
+
+          <button class="burger" type="button" aria-label="Abrir menu" aria-expanded="false" data-header="burger">
+            <span class="burger__line"></span>
+            <span class="burger__line"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="burger-menu" data-header="menu">
+        <div class="burger-menu__backdrop" data-header="menu-backdrop"></div>
+        <div class="burger-menu__content">
+          <nav class="burger-menu__nav" aria-label="Navegacao principal, menu mobile">
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#sobre">Sobre</a></div>
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#comprar">Compre sua casa</a></div>
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#anunciar">Anuncie sua casa</a></div>
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#visita">Agende uma visita</a></div>
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="/src/pages/politica-de-privacidade.html">Política de Privacidade</a></div>
+          </nav>
+
+          <div class="burger-menu__actions">
+            <a class="button-round button-round--primary" href="#login">
+              <span class="button-round__content">
+                <span class="button-round__text">
+                  <span data-text="Login">Login</span>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- =============== /HEADER ================ -->
+
+    <main class="page-main">
+      <!-- ================= HERO ================= -->
+      <section class="hero" id="hero" data-module="hero">
+        <div class="hero__top">
+          <div class="hero__bg">
+            <div class="hero__back" data-hero="back">
+              <img class="hero__img" src="src/assets/images/hero-back.webp" alt="" width="3840" height="2612" decoding="async" />
+            </div>
+
+            <div class="hero__house" data-hero="house">
+              <img
+                class="hero__img"
+                src="src/assets/images/hero-house.png"
+                srcset="src/assets/images/hero-house-768.png 768w, src/assets/images/hero-house.png 1920w"
+                sizes="(max-width: 640px) 400px, (max-width: 1640px) 700px, 75vw"
+                alt=""
+                width="3840"
+                height="3416"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </div>
+
+
+            <div class="hero__clouds">
+              <div class="hero__cloud" data-hero="cloud-left">
+                <img
+                  class="hero__img"
+                  src="src/assets/images/hero-cloud.png"
+                  srcset="src/assets/images/hero-cloud-768.webp 768w, src/assets/images/hero-cloud.png 1920w"
+                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 33vw"
+                  alt=""
+                  width="2248"
+                  height="954"
+                  decoding="async"
+                />
+              </div>
+              <div class="hero__cloud" data-hero="cloud-right">
+                <img
+                  class="hero__img"
+                  src="src/assets/images/hero-cloud.png"
+                  srcset="src/assets/images/hero-cloud-768.webp 768w, src/assets/images/hero-cloud.png 1920w"
+                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 33vw"
+                  alt=""
+                  width="2248"
+                  height="954"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+
+            <div class="hero__smoke" data-hero="smoke">
+              <img
+                class="hero__img"
+                src="src/assets/images/hero-smoke.png"
+                srcset="src/assets/images/hero-smoke-768.webp 768w, src/assets/images/hero-smoke.png 1920w"
+                sizes="100vw"
+                alt=""
+                width="3840"
+                height="1240"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div class="hero__content" data-hero="content">
+            <div class="container">
+              <div class="hero__title" data-hero="title">
+                <h1 class="hero__heading">Comigo Você Realiza seu Sonho</h1>
+              </div>
+
+
+              <div class="hero__actions" data-hero="actions">
+                <button type="button" class="button-round button-round--primary" data-action="find-properties">
+                  <span class="button-round__content">
+                    <span class="button-round__text">
+                      <span data-text="Encontre sua nova casa">Encontre sua nova casa</span>
+                    </span>
+                    <span class="button-round__icon">
+                      <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          fill="currentColor"
+                          d="m20.78 12.531-6.75 6.75a.75.75 0 1 1-1.06-1.061l5.47-5.47H3.75a.75.75 0 1 1 0-1.5h14.69l-5.47-5.469a.75.75 0 1 1 1.06-1.061l6.75 6.75a.75.75 0 0 1 0 1.061"
+                        ></path>
+                      </svg>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__bottom">
+          <div class="hero__overlap">
+            <div class="hero__smoke">
+              <img
+                class="hero__img"
+                src="src/assets/images/hero-smoke.png"
+                srcset="src/assets/images/hero-smoke-768.webp 768w, src/assets/images/hero-smoke.png 1920w"
+                sizes="100vw"
+                alt=""
+                width="3840"
+                height="1240"
+                decoding="async"
+              />
+            </div>
+            <div class="hero__overlay"></div>
+          </div>
+        </div>
+      </section>
+      <!-- =============== /HERO ================= -->
+
+      <!-- ================= SOBRE ================= -->
+      <section class="sobre" id="sobre" data-module="sobre">
+        <div class="sobre__palco">
+          <canvas class="sobre__fundo" data-sobre="fundo" aria-hidden="true"></canvas>
+          <div class="sobre__veu" aria-hidden="true"></div>
+          <div class="container">
+          <div class="sobre__inner">
+            <div class="sobre__col">
+              <div class="sobre__marca">
+                <img
+                  class="sobre__simbolo"
+                  src="public/img/logo-xavier-240.webp"
+                  alt=""
+                  width="240"
+                  height="224"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <h2 class="sobre__nome">Xavier Júnior</h2>
+                <hr class="sobre__fio" />
+                <p class="sobre__tipo">Escritório Imobiliário</p>
+                <p class="sobre__creci">CRECI 1564 PJ</p>
+              </div>
+
+              <div class="sobre__texto">
+                <p class="sobre__saudacao">Olá, eu sou Xavier Júnior.</p>
+                <p class="sobre__paragrafo">
+                  Há <strong>mais de 30 anos</strong> eu faço a mesma coisa: coloco a chave da casa própria
+                  na mão de quem sonhou com ela. Três décadas acompanhando cada etapa, da primeira visita
+                  à assinatura do contrato, com o mesmo cuidado no primeiro imóvel de um casal e na
+                  carteira de quem investe.
+                </p>
+                <p class="sobre__paragrafo">
+                  Conheço esta cidade rua por rua. Sei onde o metro quadrado ainda compensa, que documento
+                  trava um financiamento e como conduzir uma negociação sem que ela pese no seu bolso. É
+                  esse tempo de estrada que transforma uma venda em uma escolha certa.
+                </p>
+                <p class="sobre__paragrafo">
+                  Comprar, vender ou anunciar começa sempre por uma conversa. <strong>O resto eu conduzo
+                  com você.</strong>
+                </p>
+              </div>
+            </div>
+
+            <div class="sobre__foto">
+              <video
+                class="sobre__video"
+                data-sobre="filme"
+                src="public/img/video-xavier-scroll.mp4"
+                width="720"
+                height="1280"
+                muted
+                playsinline
+                preload="auto"
+                aria-label="Xavier Júnior, corretor de imóveis"
+              ></video>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =============== /SOBRE ================= -->
+
+      <!-- ================ ESPACO ================= -->
+      <!-- Provisorio: existe so para dar rolagem a saida da dobra anterior.
+           Trocar pela proxima secao de verdade. -->
+      <section class="espaco"></section>
+      <!-- =============== /ESPACO ================= -->
+    </main>
+
+    <!-- ================ RODAPE ================= -->
+    <footer class="rodape">
+      <div class="container">
+        <div class="rodape__topo">
+          <div class="rodape__marca">
+            <img
+              class="rodape__marca-img"
+              src="public/img/logo-xavier-240.webp"
+              alt=""
+              width="240"
+              height="224"
+              loading="lazy"
+              decoding="async"
+            />
+            <p class="rodape__marca-nome">Xavier Júnior</p>
+            <p class="rodape__creci">Escritório Imobiliário &middot; CRECI 1564 PJ</p>
+          </div>
+
+          <nav class="rodape__coluna" aria-label="Navegacao do rodape">
+            <p class="rodape__coluna-titulo">Navegue</p>
+            <ul class="rodape__lista">
+              <li><a class="rodape__link" href="#sobre">Sobre</a></li>
+              <li><a class="rodape__link" href="#comprar">Compre sua casa</a></li>
+              <li><a class="rodape__link" href="#anunciar">Anuncie sua casa</a></li>
+              <li><a class="rodape__link" href="#visita">Agende uma visita</a></li>
+            </ul>
+          </nav>
+
+          <nav class="rodape__coluna" aria-label="Privacidade e dados">
+            <p class="rodape__coluna-titulo">Privacidade</p>
+            <ul class="rodape__lista">
+              <li>
+                <a class="rodape__link" href="/src/pages/politica-de-privacidade.html">
+                  Política de Privacidade
+                </a>
+              </li>
+              <li>
+                <a class="rodape__link" href="/src/pages/politica-de-privacidade.html#exclusao-de-dados">
+                  Apagar meus dados
+                </a>
+              </li>
+              <li>
+                <button class="rodape__link" type="button" data-consent="reabrir" data-acao="reabrir">
+                  Preferências de cookies
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="rodape__base">
+          <p>
+            &copy; <span class="rodape__pendente">ANO</span>
+            <span class="rodape__pendente">RAZÃO SOCIAL</span> &middot; CNPJ
+            <span class="rodape__pendente">CNPJ</span>
+          </p>
+          <p>Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- =============== /RODAPE ================= -->
+
+    <!-- ============= CONSENTIMENTO ============= -->
+    <div class="consent" data-module="consentimento">
+      <!-- Aviso -->
+      <section class="consent__aviso" data-consent="aviso" hidden aria-label="Aviso de cookies">
+        <div class="consent__aviso-inner">
+          <div class="consent__aviso-texto">
+            <p class="consent__titulo">Este site usa cookies</p>
+            <p class="consent__texto">
+              Os cookies necessários fazem o site funcionar e estão sempre ativos. Os de análise e de
+              marketing só são ativados se você permitir: eles ajudam a entender como o site é usado e a
+              mostrar anúncios mais relevantes, inclusive em serviços do Google e da Meta. Você pode
+              recusar sem perder nenhuma funcionalidade e mudar sua escolha quando quiser.
+              <a class="consent__link" href="/src/pages/politica-de-privacidade.html" target="_blank" rel="noopener">
+                Leia a Política de Privacidade e Proteção de Dados
+              </a>
+            </p>
+          </div>
+
+          <div class="consent__acoes">
+            <button type="button" class="consent__botao consent__botao--texto" data-acao="preferencias">
+              Personalizar
+            </button>
+            <button type="button" class="consent__botao" data-acao="recusar">Recusar</button>
+            <button type="button" class="consent__botao consent__botao--cheio" data-acao="aceitar">
+              Aceitar todos
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preferencias -->
+      <div
+        class="consent__painel"
+        data-consent="painel"
+        hidden
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="consent-painel-titulo"
+      >
+        <div class="consent__caixa">
+          <div class="consent__caixa-topo">
+            <p class="consent__titulo" id="consent-painel-titulo">Preferências de cookies</p>
+            <button type="button" class="consent__fechar" data-acao="fechar-painel" aria-label="Fechar">
+              &times;
+            </button>
+          </div>
+
+          <div class="consent__caixa-corpo">
+            <div class="consent__categoria">
+              <input
+                class="consent__caixa-marca"
+                type="checkbox"
+                id="consent-necessarios"
+                checked
+                disabled
+              />
+              <div class="consent__categoria-info">
+                <label class="consent__categoria-nome" for="consent-necessarios">
+                  Necessários<span class="consent__categoria-fixa">sempre ativos</span>
+                </label>
+                <p class="consent__categoria-desc">
+                  Mantêm o site de pé: segurança, equilíbrio de carga e a memória da sua própria escolha
+                  de cookies. Sem eles o site não funciona, por isso não dependem de consentimento.
+                </p>
+              </div>
+            </div>
+
+            <div class="consent__categoria">
+              <input
+                class="consent__caixa-marca"
+                type="checkbox"
+                id="consent-analise"
+                data-categoria="analise"
+              />
+              <div class="consent__categoria-info">
+                <label class="consent__categoria-nome" for="consent-analise">Análise</label>
+                <p class="consent__categoria-desc">
+                  Medem quantas pessoas visitam o site, por quais páginas passam e onde desistem. Servem
+                  para melhorar o site, em estatística agregada. Ferramenta prevista: Google Analytics.
+                </p>
+              </div>
+            </div>
+
+            <div class="consent__categoria">
+              <input
+                class="consent__caixa-marca"
+                type="checkbox"
+                id="consent-marketing"
+                data-categoria="marketing"
+              />
+              <div class="consent__categoria-info">
+                <label class="consent__categoria-nome" for="consent-marketing">Marketing</label>
+                <p class="consent__categoria-desc">
+                  Permitem medir o resultado dos anúncios e mostrar ofertas de imóveis a quem já visitou o
+                  site. Ferramentas previstas: Google Ads e Meta (Facebook e Instagram).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="consent__caixa-base">
+            <a class="consent__botao consent__botao--texto" href="/src/pages/politica-de-privacidade.html" target="_blank" rel="noopener">
+              Ver política completa
+            </a>
+            <button type="button" class="consent__botao" data-acao="recusar">Recusar todos</button>
+            <button type="button" class="consent__botao consent__botao--cheio" data-acao="salvar">
+              Salvar preferências
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- ============ /CONSENTIMENTO ============ -->
+
+  </body>
+</html>

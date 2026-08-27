@@ -1,0 +1,286 @@
+/* =========================================================================
+   HEADER - barra de navegacao fixa, transparente sobre a hero
+   ========================================================================= */
+
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--color-bg);
+  transition: background-color 0.3s, transform 0.3s ease-in-out;
+}
+
+/* Sobre a hero o fundo some; volta quando a pagina passa do bloco de abertura. */
+.header--transparent:not(.header--solid) {
+  background-color: transparent;
+}
+
+/* A dobra que fica sob o header depois da abertura e escura, entao a barra
+   escurece junto e o texto clareia. Sem isto o navy some no fundo navy. */
+.header--solid {
+  background-color: var(--color-night);
+}
+
+.header--solid .header__content {
+  color: #fff;
+}
+
+/* A pilula navy sobre a barra navy precisa de um contorno para existir. */
+.header--solid .header__login {
+  border-color: var(--color-gold);
+}
+
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+/* A barra entra por ultimo, depois da hero. Sem esconder daqui ela aparece,
+   some quando o JS assume e desliza: um pisco. Sem JS a regra nao se aplica
+   e a barra fica visivel normalmente. */
+.js .header {
+  visibility: hidden;
+}
+
+.header__content {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  min-height: 8.4rem;
+  color: var(--color-text);
+  transition: color 1s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .header__content {
+    min-height: 7.8rem;
+    grid-template-columns: 25rem 1fr 25rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Logotipo
+   ---------------------------------------------------------------------- */
+.header__logo {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo-img {
+  display: block;
+  width: auto;
+  height: 5rem;
+}
+
+@media (min-width: 768px) {
+  .header__logo-img {
+    height: 5.4rem;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Navegacao (desktop)
+   ---------------------------------------------------------------------- */
+.header__nav {
+  display: none;
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  .header__nav {
+    display: flex;
+    gap: 4rem;
+  }
+}
+
+.header__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 1.25;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .header__nav-item {
+    font-size: 2rem;
+  }
+}
+
+/* Rollover: o pseudo-elemento repete o texto via data-text e sobe no hover. */
+.header__nav-item span {
+  position: relative;
+  display: block;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+
+.header__nav-item span::after {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+}
+
+/* O gatilho e o item inteiro, nao o span: o span se desloca no hover e sairia
+   de baixo do cursor, deixando o efeito preso na propria animacao. */
+@media (hover: hover) {
+  .header__nav-item:hover span {
+    transform: translateY(-105%);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Acoes (desktop)
+   ---------------------------------------------------------------------- */
+.header__actions {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .header__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Botao sanduiche
+   ---------------------------------------------------------------------- */
+.burger {
+  position: relative;
+  display: block;
+  margin: 0 0 0 auto;
+  padding: 0;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid transparent;
+  background: none;
+  color: inherit;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@media (hover: hover) {
+  .burger {
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+}
+
+/* Area de toque maior que o desenho. */
+.burger::before {
+  content: "";
+  position: absolute;
+  top: -24px;
+  left: -10px;
+  right: -10px;
+  bottom: -24px;
+}
+
+.burger__line {
+  position: relative;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 0.8rem 0;
+  border-radius: 9999px;
+  background: currentColor;
+  transition: top 0.2s 0.3s, transform 0.3s 0s;
+}
+
+.burger[aria-expanded="true"] .burger__line {
+  transition: top 0.2s, transform 0.3s 0.2s;
+}
+
+.burger[aria-expanded="true"] .burger__line:first-child {
+  top: 0.5rem;
+  transform: rotate(45deg);
+}
+
+.burger[aria-expanded="true"] .burger__line:last-child {
+  top: -0.4rem;
+  transform: translateY(-0.1rem) rotate(-45deg);
+}
+
+/* -------------------------------------------------------------------------
+   Menu mobile
+   ---------------------------------------------------------------------- */
+.burger-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 49;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8.4rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.burger-menu--open {
+  pointer-events: auto;
+}
+
+.burger-menu__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-bg);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+.burger-menu__content {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.burger-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 3rem 4rem;
+}
+
+.burger-menu__nav-item {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.burger-menu__actions {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 4rem;
+}
