@@ -12,7 +12,7 @@
 
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { createSkyline } from '../modules/skyline.js';
+import { createSkyline } from './skyline.js';
 import { splitLetters } from '../utils/split-letters.js';
 
 const MODULE_SELECTOR = '[data-module="about"]';
