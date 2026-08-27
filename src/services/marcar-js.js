@@ -1,10 +1,13 @@
 /**
- * Marca no <html> que ha JavaScript, antes do primeiro pixel.
+ * Marca no <html> que ha JavaScript.
  *
- * Script CLASSICO e SINCRONO de proposito. O CSS usa a classe `js` para
- * esconder o estado inicial de quem vai ser animado (header e hero). Se essa
- * marca so chegasse com o main.js, que espera GSAP e Lenis virem de CDN, os
- * dois apareceriam, sumiriam e voltariam animando: um pisco feio.
+ * Script CLASSICO e SINCRONO. O CSS usa a classe `js` para esconder o estado
+ * inicial de quem vai ser animado: ver `.js .header` e `.js .hero`.
+ *
+ * Carregado no FIM DO BODY, por escolha de projeto. Efeito colateral: a marca
+ * chega depois da primeira pintura, entao o header e a hero aparecem por um
+ * instante antes de serem escondidos. Devolver esta tag para o topo do <head>
+ * elimina esse pisco.
  *
  * Sem JavaScript a classe nunca entra, e nada fica escondido.
  */

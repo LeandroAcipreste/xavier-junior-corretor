@@ -1,10 +1,11 @@
 /**
  * CONSENT MODE v2 - estado inicial.
  *
- * Script CLASSICO e SINCRONO de proposito, e o primeiro do <head>. O Google
- * exige que o estado padrao de consentimento seja declarado **antes** de
- * qualquer tag carregar; um modulo (defer) rodaria tarde demais e as tags
- * subiriam sem sinal nenhum.
+ * Script CLASSICO e SINCRONO, carregado no FIM DO BODY por escolha de
+ * projeto. Atencao: o Google exige que o estado padrao de consentimento seja
+ * declarado **antes** de qualquer tag carregar. Hoje nao ha tag instalada,
+ * entao nao ha efeito; no dia em que houver, esta tag precisa voltar a ser a
+ * primeira do <head>, ou as tags subirao sem sinal de consentimento.
  *
  * Tudo que nao e essencial comeca em "denied". Se o visitante ja decidiu numa
  * visita anterior, a decisao gravada e aplicada aqui mesmo, antes das tags.
