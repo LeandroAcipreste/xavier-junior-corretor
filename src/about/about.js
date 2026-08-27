@@ -93,8 +93,29 @@ const amarrarFilmeAoScroll = (filme, root, contexto) => {
     });
   };
 
-  if (filme.readyState >= 1) ligar();
-  else filme.addEventListener('loadedmetadata', ligar, { once: true });
+  /* Um play() mudo seguido de pause() forca a decodificacao do primeiro
+     quadro. Sem isso o video pode ficar em branco no celular: ele nunca toca,
+     a reproducao e so `currentTime`, e navegador de celular costuma nao
+     pintar nada antes de decodificar. `muted` e `playsinline` no markup sao
+     o que permitem essa chamada sem gesto do visitante; se ainda assim o
+     navegador recusar, o poster continua cobrindo o lugar. */
+  const acordar = () => {
+    const tocando = filme.play();
+    if (tocando && typeof tocando.then === 'function') {
+      tocando.then(() => filme.pause()).catch(() => {});
+    } else {
+      filme.pause();
+    }
+  };
+
+  const comecar = () => {
+    acordar();
+    ligar();
+  };
+
+  /* readyState 1 e so HAVE_METADATA: da a duracao, nao um quadro. */
+  if (filme.readyState >= 1) comecar();
+  else filme.addEventListener('loadedmetadata', comecar, { once: true });
 };
 
 /**
