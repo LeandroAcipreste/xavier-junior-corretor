@@ -29,3 +29,10 @@ Desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Configuracoes e skills do Claude Code
+claude/
+.claude/
+
+# Vercel
+.vercel
