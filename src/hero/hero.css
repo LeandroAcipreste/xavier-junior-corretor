@@ -79,6 +79,26 @@
   transform-origin: bottom center;
 }
 
+/* No celular a casa cresce ALEM da largura da tela e o .hero__bg corta o
+   resto, que e o mesmo mecanismo do desktop. Sem isso a imagem cabia inteira
+   na tela estreita e aparecia a cobertura toda, em vez de um pedaco dela.
+
+   A caixa recebe a proporcao da imagem (3840x3416), entao o `contain` a
+   preenche exatamente e nao sobra faixa: o topo da caixa e o topo do
+   telhado. A altura em vh e o que controla o quanto aparece - quanto maior,
+   menos da imagem cabe na faixa entre --hero-house-top e a base da tela. */
+@media (max-width: 767px) {
+  .hero__house {
+    --hero-house-alt: 126vh;
+
+    left: 50%;
+    right: auto;
+    width: calc(var(--hero-house-alt) * 1.124);
+    margin-left: calc(var(--hero-house-alt) * 1.124 / -2);
+    height: var(--hero-house-alt);
+  }
+}
+
 @media (min-width: 768px) {
   .hero__house {
     height: 170.8rem;
