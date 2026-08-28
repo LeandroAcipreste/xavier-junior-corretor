@@ -31,7 +31,7 @@ const SCRUB = { pesado: 0.8, leitura: 0.9, deriva: 1, filme: 1.2 };
 
 /* Quanto de rolagem o acendimento das letras ocupa, em telas cheias. E longo
    de proposito: e o tempo de leitura de quem esta descendo a pagina. */
-const ACENDIMENTO_VH = 210;
+const ACENDIMENTO_VH = 270;
 
 /* Percurso horizontal da marca, em percentual da largura dela mesma, para a
    deriva acompanhar o tamanho do bloco em qualquer tela. */

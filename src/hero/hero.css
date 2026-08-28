@@ -10,13 +10,15 @@
   --hero-house-top: 60vh;
 
   position: relative;
-  height: 280vh;
+  /* Quanto mais alta a secao, mais rolagem os efeitos ocupam e mais calmos
+     eles ficam - a velocidade do scrub vem daqui, nao de duracao. */
+  height: 360vh;
   margin-bottom: -100vh;
 }
 
 @media (min-width: 768px) {
   .hero {
-    height: 350vh;
+    height: 450vh;
   }
 }
 

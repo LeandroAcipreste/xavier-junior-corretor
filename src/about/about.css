@@ -25,7 +25,8 @@
 
 @media (min-width: 768px) {
   .sobre {
-    min-height: 320vh;
+    /* Mesma razao da hero: a sobra de altura e o que da tempo de leitura. */
+    min-height: 420vh;
   }
 
   .sobre__palco {
