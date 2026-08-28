@@ -45,17 +45,37 @@ const temWebGL = () => {
 };
 
 /**
- * Desenha uma letra numa textura do tamanho exato da caixa que ela ocupa na
- * pagina. A fonte, o peso e a cor saem do proprio span: assim a letra pintada
- * e a mesma que o navegador pintaria, sem lista de fontes duplicada aqui.
+ * Folga ao redor do glifo, em fracao do corpo da fonte.
+ *
+ * A caixa do span mede o AVANCO da letra, que nao e o desenho dela. O titulo
+ * usa `letter-spacing: -0.02em`, entao o avanco e menor que o glifo e letras
+ * largas - S, C, o - saiam cortadas nas bordas. Acentos e a cedilha do "ç"
+ * tambem passam da caixa, por cima e por baixo.
+ *
+ * A folga entra na textura E no plano, no mesmo tamanho: como os dois crescem
+ * em torno do mesmo centro, a letra continua caindo exatamente onde o HTML a
+ * colocaria.
+ */
+const FOLGA = 0.3;
+
+/**
+ * Desenha uma letra numa textura com folga em volta. A fonte, o peso e a cor
+ * saem do proprio span: assim a letra pintada e a mesma que o navegador
+ * pintaria, sem lista de fontes duplicada aqui.
+ *
+ * @returns {{ textura: THREE.CanvasTexture, largura: number, altura: number }}
  */
 const texturaDaLetra = (span, dpr) => {
   const estilo = window.getComputedStyle(span);
   const caixa = span.getBoundingClientRect();
 
+  const folga = parseFloat(estilo.fontSize) * FOLGA;
+  const largura = caixa.width + folga * 2;
+  const altura = caixa.height + folga * 2;
+
   const pincel = document.createElement('canvas');
-  pincel.width = Math.max(1, Math.ceil(caixa.width * dpr));
-  pincel.height = Math.max(1, Math.ceil(caixa.height * dpr));
+  pincel.width = Math.max(1, Math.ceil(largura * dpr));
+  pincel.height = Math.max(1, Math.ceil(altura * dpr));
 
   const ctx = pincel.getContext('2d');
   ctx.scale(dpr, dpr);
@@ -65,12 +85,12 @@ const texturaDaLetra = (span, dpr) => {
   ctx.fillStyle = span.dataset.cor || estilo.color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(span.textContent, caixa.width / 2, caixa.height / 2);
+  ctx.fillText(span.textContent, largura / 2, altura / 2);
 
   const textura = new THREE.CanvasTexture(pincel);
   textura.colorSpace = THREE.SRGBColorSpace;
 
-  return textura;
+  return { textura, largura, altura };
 };
 
 /**
@@ -126,19 +146,25 @@ export const createTitle3D = (heading, canvas) => {
       const caixa = span.getBoundingClientRect();
       if (!caixa.width || !caixa.height) return;
 
+      const { textura, largura, altura } = texturaDaLetra(span, dpr);
+
       /* Sem DoubleSide de proposito: de costas a letra nao e desenhada, e e
-         isso que a mantem escondida ate a hora dela. */
+         isso que a mantem escondida ate a hora dela.
+
+         depthWrite desligado porque a folga fez os planos se sobreporem: com
+         ele ligado, a parte transparente de uma letra gravaria profundidade e
+         recortaria a letra vizinha. */
       const material = new THREE.MeshBasicMaterial({
-        map: texturaDaLetra(span, dpr),
+        map: textura,
         transparent: true,
+        depthWrite: false,
       });
 
-      const mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(caixa.width, caixa.height),
-        material,
-      );
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(largura, altura), material);
 
-      /* O Y do DOM cresce para baixo e o do mundo para cima: dai a subtracao. */
+      /* Centro da caixa do span: a folga cresceu em volta desse mesmo ponto,
+         entao a letra cai onde o HTML a colocaria.
+         O Y do DOM cresce para baixo e o do mundo para cima: dai a subtracao. */
       mesh.position.set(
         caixa.left - area.left + caixa.width / 2,
         area.height - (caixa.top - area.top) - caixa.height / 2,
