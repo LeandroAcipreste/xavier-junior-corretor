@@ -27,11 +27,12 @@ const INTRO_DELAY = 200;
    3. o botao entra por ultimo, e a barra de navegacao logo atras dele
       (o atraso dela vive em header.js, medido contra estes valores).
    Cada etapa comeca depois de a anterior estar legivel, e nao junto. */
-const CENA = { cenario: 0, frase: 1.1, botao: 3.9 };
+const CENA = { cenario: 0, frase: 0.9, botao: 3.4 };
 
-/* Usado so no plano B, sem WebGL: a frase acende por opacidade. Com WebGL
-   quem manda nos tempos e TEMPO, em title-3d.js. */
-const LETRA = { duracao: 0.4, passo: 0.045 };
+/* Usado so no plano B, sem WebGL: a frase acende por opacidade. Os tempos
+   acompanham os do giro para o botao cair no mesmo lugar nos dois caminhos.
+   Com WebGL quem manda e TEMPO, em title-3d.js. */
+const LETRA = { duracao: 0.5, passo: 0.07 };
 
 const PARTS = {
   back: '[data-hero="back"]',

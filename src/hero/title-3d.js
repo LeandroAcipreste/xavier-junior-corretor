@@ -30,8 +30,13 @@ const DPR_MAX = 2;
 const GIRO = Math.PI;
 
 /* duracao e o giro de UMA letra; passo e o intervalo entre uma e a proxima.
-   Com 25 letras: a ultima parte em 24*passo + duracao = ~2,76s. */
-const TEMPO = { duracao: 1.8, passo: 0.04 };
+   Com 25 letras a ultima comeca em 24*passo = 1,68s e fecha em ~2,5s.
+
+   O ease importa tanto quanto os numeros. Com power3.out, 87% do giro sai na
+   primeira metade da duracao: a letra chegava quase instantaneamente e ficava
+   o resto do tempo parada, entao a frase acabava muito antes do fim nominal e
+   abria um vacuo ate o botao. power2.out distribui melhor - 75% na metade. */
+const TEMPO = { duracao: 1.2, passo: 0.07, ease: 'power2.out' };
 
 const CLASSE_OCULTA = 'hero__heading--3d';
 
@@ -232,7 +237,7 @@ export const createTitle3D = (heading, canvas) => {
     timeline.fromTo(
       angulos,
       { y: GIRO },
-      { y: 0, duration: TEMPO.duracao, stagger: TEMPO.passo, ease: 'power3.out' },
+      { y: 0, duration: TEMPO.duracao, stagger: TEMPO.passo, ease: TEMPO.ease },
       0,
     );
 
