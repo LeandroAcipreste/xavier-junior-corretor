@@ -38,6 +38,12 @@ const GIRO = Math.PI;
    abria um vacuo ate o botao. power2.out distribui melhor - 75% na metade. */
 const TEMPO = { duracao: 1.2, passo: 0.07, ease: 'power2.out' };
 
+/* Os numeros da SAIDA sao PROPORCAO, nao segundos: esta timeline e consumida
+   por um scrub, e ali quem controla a velocidade nao e duracao nenhuma, e a
+   distancia de rolagem que o efeito ocupa. Somados cabem em ~0,71 da unidade,
+   para a frase terminar de sair antes de a dobra branca cobrir a tela. */
+const SAIDA = { duracao: 0.25, passo: 0.019 };
+
 const CLASSE_OCULTA = 'hero__heading--3d';
 
 /** Sem contexto nao ha o que desenhar; o chamador cai no plano B. */
@@ -101,7 +107,7 @@ const texturaDaLetra = (span, dpr) => {
 /**
  * @param {HTMLElement} heading  o <h1> da hero
  * @param {HTMLCanvasElement} canvas
- * @returns {{ criarTimeline: () => gsap.core.Timeline, destroy: () => void } | null}
+ * @returns {{ criarEntrada: () => gsap.core.Timeline, criarSaida: () => gsap.core.Timeline, destroy: () => void } | null}
  */
 export const createTitle3D = (heading, canvas) => {
   if (!heading || !canvas || !temWebGL()) return null;
@@ -219,20 +225,16 @@ export const createTitle3D = (heading, canvas) => {
   /* O texto so some depois de haver o que colocar no lugar dele. */
   heading.classList.add(CLASSE_OCULTA);
 
-  /* Fabrica, e nao timeline pronta: timeline solta ja comeca a andar, e esta
-     precisa esperar a posicao que a abertura da hero reservar para ela. E o
+  /* Fabricas, e nao timelines prontas: timeline solta ja comeca a andar, e
+     estas precisam esperar a posicao que a hero reservar para cada uma. E o
      mesmo contrato de revealWords e fadeUp.
 
-     Desenha so enquanto a animacao anda: parada, a cena nao muda, e um laco
-     eterno de render seria consumo puro. */
-  const criarTimeline = () => {
-    const timeline = gsap.timeline({
-      onStart: () => gsap.ticker.add(desenhar),
-      onComplete: () => {
-        desenhar();
-        gsap.ticker.remove(desenhar);
-      },
-    });
+     O desenho vai no onUpdate: ele so dispara quando a timeline anda, entao a
+     cena parada nao custa quadro nenhum e nao ha ticker para gerir. Serve
+     igual para a entrada, que toca sozinha, e para a saida, que e arrastada
+     pela rolagem. */
+  const criarEntrada = () => {
+    const timeline = gsap.timeline({ onUpdate: desenhar });
 
     timeline.fromTo(
       angulos,
@@ -244,13 +246,39 @@ export const createTitle3D = (heading, canvas) => {
     return timeline;
   };
 
+  /* A cena se desmonta como se montou: a letra nao apaga, ela continua o giro
+     no proprio eixo ate mostrar as costas, que nao sao desenhadas. Na ordem
+     inversa - a ultima a chegar e a primeira a sair -, que e a convencao que a
+     segunda dobra ja usa.
+
+     overwrite: 'auto' porque as duas timelines escrevem nos mesmos angulos: se
+     a rolagem comecar antes de a abertura terminar, esta assume o controle em
+     vez de as duas disputarem o mesmo valor a cada quadro. */
+  const criarSaida = () => {
+    const timeline = gsap.timeline({ onUpdate: desenhar });
+
+    timeline.to(
+      angulos,
+      {
+        y: -GIRO,
+        duration: SAIDA.duracao,
+        stagger: { each: SAIDA.passo, from: 'end' },
+        ease: 'none',
+        overwrite: 'auto',
+      },
+      0,
+    );
+
+    return timeline;
+  };
+
   return {
-    criarTimeline,
+    criarEntrada,
+    criarSaida,
 
     destroy: () => {
       refazer?.kill();
       window.removeEventListener('resize', aoRedimensionar);
-      gsap.ticker.remove(desenhar);
       heading.classList.remove(CLASSE_OCULTA);
       descartar();
       renderer.dispose();

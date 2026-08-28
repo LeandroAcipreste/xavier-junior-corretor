@@ -29,6 +29,11 @@ const INTRO_DELAY = 200;
    Cada etapa comeca depois de a anterior estar legivel, e nao junto. */
 const CENA = { cenario: 0, frase: 0.9, botao: 3.4 };
 
+/* Desmontagem, em PROPORCAO da passagem da hero pela tela - nao em segundos:
+   quem dita a velocidade e a distancia de rolagem. Ordem inversa da montagem,
+   o botao antes da frase. */
+const SAIDA = { botao: 0, frase: 0.15 };
+
 /* Usado so no plano B, sem WebGL: a frase acende por opacidade. Os tempos
    acompanham os do giro para o botao cair no mesmo lugar nos dois caminhos.
    Com WebGL quem manda e TEMPO, em title-3d.js. */
@@ -55,7 +60,7 @@ const queryParts = (root) =>
   }, {});
 
 /** Timeline normalizada em 1 unidade de duracao, consumida pelo scrub. */
-const buildScrollTimeline = (parts) => {
+const buildScrollTimeline = (parts, titulo3d) => {
   const timeline = gsap.timeline();
 
   /* As nuvens sobem e saem por cima, cada uma no seu ritmo. */
@@ -65,9 +70,43 @@ const buildScrollTimeline = (parts) => {
   /* A fumaca sobe do rodape e prepara a entrada do branco. */
   timeline.fromTo(parts.smoke, { yPercent: 70 }, { yPercent: 0, duration: 1 }, 0);
 
-  /* O texto sai antes, para nao atravessar a dobra. */
+  /* O bloco inteiro sobe junto com a cena. */
   timeline.to(parts.content, { yPercent: -12, duration: 1 }, 0);
-  timeline.to(parts.content, { opacity: 0, duration: 0.35 }, 0);
+
+  /* A cena se desmonta pelo mesmo mecanismo com que se montou, e nao por um
+     fade unico no bloco: o botao sai primeiro e a frase depois, letra por
+     letra, cada uma terminando o giro no proprio eixo. */
+  const saindo = [parts.text, parts.actions].filter(Boolean);
+
+  if (saindo.length) {
+    timeline.to(
+      saindo,
+      { autoAlpha: 0, y: -30, duration: 0.25, ease: 'none', overwrite: 'auto' },
+      SAIDA.botao,
+    );
+  }
+
+  if (titulo3d) {
+    timeline.add(titulo3d.criarSaida(), SAIDA.frase);
+  } else {
+    /* Sem WebGL as letras apagam uma a uma, na mesma ordem inversa. */
+    const heading = parts.title?.querySelector('h1');
+    const letras = heading ? splitLetters(heading).flat() : [];
+
+    if (letras.length) {
+      timeline.to(
+        letras,
+        {
+          opacity: 0,
+          duration: 0.25,
+          stagger: { each: 0.019, from: 'end' },
+          ease: 'none',
+          overwrite: 'auto',
+        },
+        SAIDA.frase,
+      );
+    }
+  }
 
   return timeline;
 };
@@ -96,7 +135,7 @@ const buildIntroTimeline = (root, parts, titulo3d) => {
      frase em vez de soletrar. */
   if (titulo3d) {
     /* Com WebGL cada letra gira no proprio eixo ate parar de frente. */
-    timeline.add(titulo3d.criarTimeline(), CENA.frase);
+    timeline.add(titulo3d.criarEntrada(), CENA.frase);
   } else if (heading) {
     /* Sem WebGL a frase acende por opacidade. Mesma ordem, mesmo lugar. */
     const letras = splitLetters(heading).flat();
@@ -134,7 +173,7 @@ export const initHero = (root = document.querySelector(MODULE_SELECTOR)) => {
   const context = gsap.context(() => {
     ScrollTrigger.create({
       trigger: root,
-      animation: buildScrollTimeline(parts),
+      animation: buildScrollTimeline(parts, titulo3d),
       start: 'top top',
       end: 'bottom top',
       scrub: 0.6,
