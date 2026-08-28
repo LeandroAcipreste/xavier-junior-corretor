@@ -27,10 +27,10 @@ const INTRO_DELAY = 200;
    3. o botao entra por ultimo, e a barra de navegacao logo atras dele
       (o atraso dela vive em header.js, medido contra estes valores).
    Cada etapa comeca depois de a anterior estar legivel, e nao junto. */
-const CENA = { cenario: 0, frase: 1.1, botao: 2.75 };
+const CENA = { cenario: 0, frase: 1.1, botao: 3.9 };
 
-/* A frase tem ~26 letras: com este passo ela leva cerca de 1,2s para acender
-   inteira, e o botao entra logo depois. */
+/* Usado so no plano B, sem WebGL: a frase acende por opacidade. Com WebGL
+   quem manda nos tempos e TEMPO, em title-3d.js. */
 const LETRA = { duracao: 0.4, passo: 0.045 };
 
 const PARTS = {

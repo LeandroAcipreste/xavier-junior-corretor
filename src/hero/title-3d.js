@@ -24,10 +24,14 @@ import { splitLetters } from '../animations/split-letters.js';
 /* Acima de 2 o ganho visual nao paga o custo de preencher a textura. */
 const DPR_MAX = 2;
 
-/* Meia volta: a letra entra de costas e para de frente. */
+/* Meia volta: a letra entra de costas e para de frente. De costas ela nao e
+   desenhada - o material descarta a face traseira -, entao a frase comeca
+   invisivel e cada letra so aparece ao cruzar o meio do proprio giro. */
 const GIRO = Math.PI;
 
-const TEMPO = { duracao: 1.1, passo: 0.05 };
+/* duracao e o giro de UMA letra; passo e o intervalo entre uma e a proxima.
+   Com 25 letras: a ultima parte em 24*passo + duracao = ~2,76s. */
+const TEMPO = { duracao: 1.8, passo: 0.04 };
 
 const CLASSE_OCULTA = 'hero__heading--3d';
 
@@ -72,13 +76,19 @@ const texturaDaLetra = (span, dpr) => {
 /**
  * @param {HTMLElement} heading  o <h1> da hero
  * @param {HTMLCanvasElement} canvas
- * @returns {{ timeline: gsap.core.Timeline, destroy: () => void } | null}
+ * @returns {{ criarTimeline: () => gsap.core.Timeline, destroy: () => void } | null}
  */
 export const createTitle3D = (heading, canvas) => {
   if (!heading || !canvas || !temWebGL()) return null;
 
   const letras = splitLetters(heading).flat();
   if (!letras.length) return null;
+
+  /* O angulo de cada letra vive aqui, e nao no plano: refazer a cena troca os
+     planos, e a timeline continuaria girando objetos que ja sairam da cena.
+     Comeca em GIRO para que qualquer desenho anterior a animacao mostre a
+     face traseira, que nao e desenhada. */
+  const angulos = letras.map(() => ({ y: GIRO }));
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   const cena = new THREE.Scene();
@@ -87,7 +97,7 @@ export const createTitle3D = (heading, canvas) => {
   let planos = [];
 
   const descartar = () => {
-    planos.forEach((mesh) => {
+    planos.forEach(({ mesh }) => {
       cena.remove(mesh);
       mesh.geometry.dispose();
       mesh.material.map?.dispose();
@@ -112,15 +122,15 @@ export const createTitle3D = (heading, canvas) => {
 
     descartar();
 
-    letras.forEach((span) => {
+    letras.forEach((span, indice) => {
       const caixa = span.getBoundingClientRect();
       if (!caixa.width || !caixa.height) return;
 
+      /* Sem DoubleSide de proposito: de costas a letra nao e desenhada, e e
+         isso que a mantem escondida ate a hora dela. */
       const material = new THREE.MeshBasicMaterial({
         map: texturaDaLetra(span, dpr),
         transparent: true,
-        /* A letra gira: sem isto ela some ao mostrar as costas. */
-        side: THREE.DoubleSide,
       });
 
       const mesh = new THREE.Mesh(
@@ -135,13 +145,23 @@ export const createTitle3D = (heading, canvas) => {
         0,
       );
 
+      mesh.rotation.y = angulos[indice].y;
+
       cena.add(mesh);
-      planos.push(mesh);
+      planos.push({ mesh, angulo: angulos[indice] });
     });
   };
 
   const desenhar = () => {
-    if (camera) renderer.render(cena, camera);
+    if (!camera) return;
+
+    /* Copia o angulo para o plano no momento do desenho: e o que permite
+       refazer a cena no meio da animacao sem perder o ponto do giro. */
+    planos.forEach(({ mesh, angulo }) => {
+      mesh.rotation.y = angulo.y;
+    });
+
+    renderer.render(cena, camera);
   };
 
   montar();
@@ -184,7 +204,7 @@ export const createTitle3D = (heading, canvas) => {
     });
 
     timeline.fromTo(
-      planos.map((mesh) => mesh.rotation),
+      angulos,
       { y: GIRO },
       { y: 0, duration: TEMPO.duracao, stagger: TEMPO.passo, ease: 'power3.out' },
       0,

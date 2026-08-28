@@ -20,12 +20,12 @@ const FALLBACK_VIEWPORTS = 3;
 /* A barra desce por ultimo, terceira etapa da abertura: cenario, frase letra
    por letra, e so entao o botao com a barra logo atras.
 
-   O valor e medido contra a hero: la o botao entra em CENA.botao (2,75s da
-   timeline dela, que comeca 200ms depois do load). Mexer naqueles tempos pede
-   mexer neste. Sao dois modulos independentes de proposito - o header existe
+   O valor e medido contra a hero: la o botao entra em CENA.botao (3,9s da
+   timeline dela, que comeca 200ms depois do load), depois de a frase inteira
+   ter girado. Mexer naqueles tempos pede mexer neste. Sao dois modulos independentes de proposito - o header existe
    em paginas sem hero -, entao o acordo entre eles e por constante, nao por
    uma timeline compartilhada. */
-const INTRO = { atraso: 3, duracao: 1.1 };
+const INTRO = { atraso: 4.2, duracao: 1.1 };
 
 const CLASS = {
   hidden: 'header--hidden',
