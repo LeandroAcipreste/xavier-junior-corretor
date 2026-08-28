@@ -16,6 +16,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { fadeUp } from '../animations/reveal.js';
 import { splitLetters } from '../animations/split-letters.js';
+import { createTitle3D } from './title-3d.js';
 
 const MODULE_SELECTOR = '[data-module="hero"]';
 const INTRO_DELAY = 200;
@@ -42,6 +43,7 @@ const PARTS = {
   title: '[data-hero="title"]',
   text: '[data-hero="text"]',
   actions: '[data-hero="actions"]',
+  titleCanvas: '[data-hero="title-canvas"]',
 };
 
 /** Cacheia as camadas uma unica vez. */
@@ -70,7 +72,7 @@ const buildScrollTimeline = (parts) => {
 };
 
 /** Entrada tocada uma vez, independente do scroll. */
-const buildIntroTimeline = (root, parts) => {
+const buildIntroTimeline = (root, parts, titulo3d) => {
   const houseImage = parts.house?.querySelector('img');
   const heading = parts.title?.querySelector('h1') || parts.title;
   const timeline = gsap.timeline({ paused: true });
@@ -91,7 +93,11 @@ const buildIntroTimeline = (root, parts) => {
      splitLetters mantem cada letra num <span> inline: a quebra de linha e o
      kerning continuam os do texto original, e o leitor de tela segue lendo a
      frase em vez de soletrar. */
-  if (heading) {
+  if (titulo3d) {
+    /* Com WebGL cada letra gira no proprio eixo ate parar de frente. */
+    timeline.add(titulo3d.criarTimeline(), CENA.frase);
+  } else if (heading) {
+    /* Sem WebGL a frase acende por opacidade. Mesma ordem, mesmo lugar. */
     const letras = splitLetters(heading).flat();
 
     if (letras.length) {
@@ -119,6 +125,11 @@ export const initHero = (root = document.querySelector(MODULE_SELECTOR)) => {
   if (!root) return null;
 
   const parts = queryParts(root);
+
+  /* Fora do contexto do GSAP: ele tem recursos proprios (renderer, texturas,
+     listener de resize) que o revert() nao conhece e nao limparia. */
+  const titulo3d = createTitle3D(parts.title?.querySelector('h1'), parts.titleCanvas);
+
   const context = gsap.context(() => {
     ScrollTrigger.create({
       trigger: root,
@@ -128,7 +139,7 @@ export const initHero = (root = document.querySelector(MODULE_SELECTOR)) => {
       scrub: 0.6,
     });
 
-    const intro = buildIntroTimeline(root, parts);
+    const intro = buildIntroTimeline(root, parts, titulo3d);
     const timer = window.setTimeout(
       () => window.requestAnimationFrame(() => intro.play()),
       INTRO_DELAY,
@@ -138,6 +149,9 @@ export const initHero = (root = document.querySelector(MODULE_SELECTOR)) => {
   }, root);
 
   return {
-    destroy: () => context.revert(),
+    destroy: () => {
+      titulo3d?.destroy();
+      context.revert();
+    },
   };
 };

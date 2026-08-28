@@ -243,6 +243,29 @@
   }
 }
 
+/* -------------------------------------------------------------------------
+   Titulo
+   ---------------------------------------------------------------------- */
+/* O canvas das letras 3D se apoia nesta caixa. */
+.hero__title {
+  position: relative;
+}
+
+.hero__title-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Quando as letras 3D assumem, o texto sai de vista por OPACIDADE: continua
+   ocupando o mesmo espaco - e dele que saem as posicoes que o canvas usa - e
+   continua sendo lido por leitor de tela e por buscador. */
+.hero__heading--3d {
+  opacity: 0;
+}
+
 .hero__title h1 {
   font-weight: 700;
   /* A escala de rem depende so da largura. Sendo esta frase de duas a tres
