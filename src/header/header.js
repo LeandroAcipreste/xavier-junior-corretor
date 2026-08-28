@@ -17,10 +17,15 @@ const TOP_THRESHOLD = 100;
 /* Sem secao de abertura declarada, cai para tres telas cheias. */
 const FALLBACK_VIEWPORTS = 3;
 
-/* A barra desce por ultimo, depois de a hero ter se montado. O atraso e
-   medido contra a entrada da hero, que leva cerca de dois segundos para
-   assentar o titulo e o botao. */
-const INTRO = { atraso: 2.4, duracao: 1.1 };
+/* A barra desce por ultimo, terceira etapa da abertura: cenario, frase letra
+   por letra, e so entao o botao com a barra logo atras.
+
+   O valor e medido contra a hero: la o botao entra em CENA.botao (2,75s da
+   timeline dela, que comeca 200ms depois do load). Mexer naqueles tempos pede
+   mexer neste. Sao dois modulos independentes de proposito - o header existe
+   em paginas sem hero -, entao o acordo entre eles e por constante, nao por
+   uma timeline compartilhada. */
+const INTRO = { atraso: 3, duracao: 1.1 };
 
 const CLASS = {
   hidden: 'header--hidden',

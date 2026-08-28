@@ -14,10 +14,23 @@
 
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { revealWords, fadeUp } from '../animations/reveal.js';
+import { fadeUp } from '../animations/reveal.js';
+import { splitLetters } from '../animations/split-letters.js';
 
 const MODULE_SELECTOR = '[data-module="hero"]';
 const INTRO_DELAY = 200;
+
+/* Ordem de apresentacao da abertura, em segundos dentro da timeline:
+   1. a cobertura e as nuvens montam o cenario;
+   2. a frase acende letra por letra;
+   3. o botao entra por ultimo, e a barra de navegacao logo atras dele
+      (o atraso dela vive em header.js, medido contra estes valores).
+   Cada etapa comeca depois de a anterior estar legivel, e nao junto. */
+const CENA = { cenario: 0, frase: 1.1, botao: 2.75 };
+
+/* A frase tem ~26 letras: com este passo ela leva cerca de 1,2s para acender
+   inteira, e o botao entra logo depois. */
+const LETRA = { duracao: 0.4, passo: 0.045 };
 
 const PARTS = {
   back: '[data-hero="back"]',
@@ -59,22 +72,41 @@ const buildScrollTimeline = (parts) => {
 /** Entrada tocada uma vez, independente do scroll. */
 const buildIntroTimeline = (root, parts) => {
   const houseImage = parts.house?.querySelector('img');
+  const heading = parts.title?.querySelector('h1') || parts.title;
   const timeline = gsap.timeline({ paused: true });
 
-  /* O texto de apoio e opcional: a hero funciona so com titulo e botao. */
-  const copy = [parts.text, parts.actions].filter(Boolean);
-
   timeline.fromTo(root, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 }, 0);
-  timeline.add(revealWords(parts.title, { duration: 2, stagger: 0.1 }), 0);
-  if (copy.length) timeline.add(fadeUp(copy), 0.4);
-  timeline.from(parts.back, { scale: 1.1, duration: 5, ease: 'expo.out' }, 0);
-  timeline.from(parts.cloudLeft, { yPercent: 50, duration: 3, ease: 'expo.out' }, 0);
-  timeline.from(parts.cloudRight, { yPercent: 100, duration: 4, ease: 'expo.out' }, 0.1);
+
+  /* 1. Cenario: a cobertura e as nuvens primeiro, sozinhas. */
+  timeline.from(parts.back, { scale: 1.1, duration: 5, ease: 'expo.out' }, CENA.cenario);
+  timeline.from(parts.cloudLeft, { yPercent: 50, duration: 3, ease: 'expo.out' }, CENA.cenario);
+  timeline.from(parts.cloudRight, { yPercent: 100, duration: 4, ease: 'expo.out' }, CENA.cenario + 0.1);
 
   if (houseImage) {
-    timeline.from(houseImage, { opacity: 0, duration: 0.6 }, 0.2);
-    timeline.from(houseImage, { yPercent: 6, duration: 3, ease: 'expo.out' }, 0.2);
+    timeline.from(houseImage, { opacity: 0, duration: 0.8 }, CENA.cenario);
+    timeline.from(houseImage, { yPercent: 6, duration: 3, ease: 'expo.out' }, CENA.cenario);
   }
+
+  /* 2. A frase acende letra por letra, com o cenario ja montado.
+     splitLetters mantem cada letra num <span> inline: a quebra de linha e o
+     kerning continuam os do texto original, e o leitor de tela segue lendo a
+     frase em vez de soletrar. */
+  if (heading) {
+    const letras = splitLetters(heading).flat();
+
+    if (letras.length) {
+      timeline.from(
+        letras,
+        { opacity: 0, duration: LETRA.duracao, stagger: LETRA.passo, ease: 'none' },
+        CENA.frase,
+      );
+    }
+  }
+
+  /* 3. O botao por ultimo. O texto de apoio e opcional: a hero funciona so
+     com titulo e botao. */
+  const copy = [parts.text, parts.actions].filter(Boolean);
+  if (copy.length) timeline.add(fadeUp(copy), CENA.botao);
 
   return timeline;
 };

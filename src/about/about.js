@@ -13,7 +13,7 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { createSkyline } from './skyline.js';
-import { splitLetters } from './split-letters.js';
+import { splitLetters } from '../animations/split-letters.js';
 
 const MODULE_SELECTOR = '[data-module="about"]';
 const CANVAS_SELECTOR = '[data-about="fundo"]';
