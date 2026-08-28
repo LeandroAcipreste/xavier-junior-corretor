@@ -74,14 +74,32 @@ const coletar = (root) => {
  * junto na limpeza, mesmo tendo sido criado mais tarde.
  */
 const amarrarFilmeAoScroll = (filme, root, contexto) => {
+  /* Menos de um quadro de diferenca nao se ve, e nao paga uma busca. */
+  const PASSO = 1 / 30;
+
   const ligar = () => {
     contexto.add(() => {
+      /* O scrub escreve num alvo intermediario, e nao direto no video.
+         Cada escrita em currentTime dispara uma busca no arquivo, e uma busca
+         por quadro e o suficiente para engasgar a rolagem inteira - o
+         decodificador nao acompanha. Aqui so buscamos quando a diferenca
+         passa de um quadro, e nunca com uma busca ainda em andamento. */
+      const alvo = { tempo: 0 };
+
+      const aplicar = () => {
+        if (filme.seeking) return;
+        if (Math.abs(alvo.tempo - filme.currentTime) < PASSO) return;
+
+        filme.currentTime = alvo.tempo;
+      };
+
       gsap.fromTo(
-        filme,
-        { currentTime: 0 },
+        alvo,
+        { tempo: 0 },
         {
-          currentTime: filme.duration,
+          tempo: filme.duration,
           ease: LINEAR,
+          onUpdate: aplicar,
           scrollTrigger: {
             trigger: root,
             start: 'top bottom',

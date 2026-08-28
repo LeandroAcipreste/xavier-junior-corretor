@@ -36,6 +36,11 @@ const startModules = () => MODULES.map((init) => init()).filter(Boolean);
 const start = () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  /* No celular, a barra de endereco aparecendo e sumindo muda a altura da
+     tela. Sem isto o ScrollTrigger recalcula todas as marcas no meio da
+     rolagem, e o recalculo aparece como salto. */
+  ScrollTrigger.config({ ignoreMobileResize: true });
+
   publishScrollbarWidth();
   window.addEventListener('resize', publishScrollbarWidth, { passive: true });
 
