@@ -116,6 +116,7 @@ html.is-scroll-locked {
 }
 
 html, body {
+  max-width: 100vw;
   overflow-x: hidden;
   /* Garante que paddings não estiquem o grid lateralmente */
   box-sizing: border-box; 

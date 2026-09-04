@@ -160,25 +160,28 @@ export function initPrincipios() {
         }
       });
     } else {
-      // No Mobile, usamos um IntersectionObserver puro para as transições CSS com delay
-      const observer = new IntersectionObserver((entries, obs) => {
+      // O Gatilho Inteligente no JavaScript conforme snippet
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: isMobile ? 0.1 : 0.3 // No mobile, dispara assim que 10% do item aparecer
+      };
+
+      const animacaoObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Quando a seção inteira entra, ativa todos (os delays no CSS cuidam da ordem)
-            items.forEach(item => item.classList.add('visivel'));
-            obs.unobserve(entry.target); // Para rodar apenas 1 vez
+            // Adiciona a classe que faz o item aparecer
+            entry.target.classList.add('visivel');
+            // Para de observar depois que aparecer a primeira vez
+            observer.unobserve(entry.target);
           }
         });
-      }, {
-        threshold: 0, // Dispara exatamente assim que o primeiro pixel toca na tela
-        rootMargin: '0px 0px 50px 0px' // Expande a margem inferior para antecipar o gatilho (não falhar se a lista for muito longa)
-      });
+      }, observerOptions);
 
-      // Observa a lista inteira (pai dos itens)
-      const lista = root.querySelector('.principios__lista');
-      if (lista) {
-        observer.observe(lista);
-      }
+      // Seleciona as divs de Visão, Missão e Pilares e começa a observar individualmente
+      items.forEach(item => {
+        animacaoObserver.observe(item);
+      });
     }
   }
 }
