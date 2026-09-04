@@ -227,39 +227,68 @@ export const initAbout = (root = document.querySelector(MODULE_SELECTOR)) => {
   const partes = coletar(root);
 
   const contexto = gsap.context(() => {
-    ScrollTrigger.create({
-      trigger: root,
-      animation: construirEntrada(partes),
-      start: 'top bottom',
-      end: 'top top',
-      scrub: SCRUB.pesado,
-    });
+    const isMobile = window.innerWidth < 768;
 
-    /* O acendimento das letras substitui a entrada do texto: e ele que faz o
-       texto aparecer. Termina quando a secao encosta no topo, junto com o
-       comeco do repouso. */
+    // A entrada da marca e da foto
+    if (!isMobile) {
+      ScrollTrigger.create({
+        trigger: root,
+        animation: construirEntrada(partes),
+        start: 'top bottom',
+        end: 'top top',
+        scrub: SCRUB.pesado,
+      });
+    } else {
+      // No mobile, a entrada e mais direta e precoce
+      ScrollTrigger.create({
+        trigger: root,
+        animation: construirEntrada(partes),
+        start: 'top 95%',
+        end: 'top 50%',
+        scrub: SCRUB.pesado,
+      });
+    }
+
     const corDoFundo = window
       .getComputedStyle(document.documentElement)
       .getPropertyValue('--color-night')
       .trim();
 
-    const acendimento = construirAcendimento(partes.texto, corDoFundo);
+    // O texto (Acendimento letra por letra) so ocorre no desktop para nao prender o mobile no estado escuro!
+    if (!isMobile) {
+      const acendimento = construirAcendimento(partes.texto, corDoFundo);
 
-    ScrollTrigger.create({
-      trigger: root,
-      animation: acendimento.timeline,
-      start: 'top 65%',
-      end: `+=${ACENDIMENTO_VH}%`,
-      scrub: SCRUB.leitura,
-    });
+      ScrollTrigger.create({
+        trigger: root,
+        animation: acendimento.timeline,
+        start: 'top 65%',
+        end: `+=${ACENDIMENTO_VH}%`,
+        scrub: SCRUB.leitura,
+      });
 
-    ScrollTrigger.create({
-      trigger: root,
-      animation: construirSaida(partes),
-      start: 'bottom bottom',
-      end: 'bottom top',
-      scrub: SCRUB.pesado,
-    });
+      ScrollTrigger.create({
+        trigger: root,
+        animation: construirSaida(partes),
+        start: 'bottom bottom',
+        end: 'bottom top',
+        scrub: SCRUB.pesado,
+      });
+    } else {
+      // No mobile, apenas garantimos que o texto ja entre visivel (opacity: 1 nativo)
+      // E fazemos um pequeno fade up simples para nao conflitar
+      gsap.from(partes.texto, {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: partes.texto[0],
+          start: 'top 95%', // Gatilho precoce
+          toggleActions: 'play none none none',
+        },
+      });
+    }
 
     /* A deriva cobre a passagem inteira, do momento em que a secao aponta no
        rodape ate ela sumir por cima: e um movimento so, contínuo. */
