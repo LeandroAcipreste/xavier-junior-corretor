@@ -170,8 +170,8 @@ export function initPrincipios() {
           }
         });
       }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -10% 0px'
+        threshold: 0, // Dispara exatamente assim que o primeiro pixel toca na tela
+        rootMargin: '0px 0px 50px 0px' // Expande a margem inferior para antecipar o gatilho (não falhar se a lista for muito longa)
       });
 
       // Observa a lista inteira (pai dos itens)

@@ -115,6 +115,16 @@ html.is-scroll-locked {
   overflow: hidden;
 }
 
+html, body {
+  overflow-x: hidden;
+  /* Garante que paddings não estiquem o grid lateralmente */
+  box-sizing: border-box; 
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   display: flex;
