@@ -13,6 +13,12 @@ export function initMarca() {
   
   if (!root || !windowBox || !track) return null;
 
+  const video = root.querySelector('.espaco-marca__video-inner');
+  if (video) {
+    video.muted = true;
+    video.play().catch(() => {});
+  }
+
   const contexto = gsap.context(() => {
     // 1. Animação de Entrada: Vídeo entra pela esquerda, Fotos entram pela direita
     if (header) {

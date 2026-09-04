@@ -112,7 +112,7 @@ export function initPrincipios() {
   if (headerCol && contentCol) {
     ScrollTrigger.create({
       trigger: headerCol,
-      start: 'top 140px',
+      start: () => (window.innerWidth < 1024 ? 'top 90px' : 'top 140px'),
       endTrigger: contentCol,
       end: 'bottom bottom',
       pin: true,

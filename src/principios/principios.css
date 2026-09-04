@@ -131,14 +131,20 @@
 
 .principios__col-header {
   flex: 0 0 auto;
+  position: sticky;
+  top: 90px;
+  align-self: flex-start;
+  z-index: 10;
+  background-color: var(--color-bg);
+  padding-bottom: 1.5rem;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
   .principios__col-header {
     width: 35%;
-    position: sticky;
     top: 140px;
-    align-self: flex-start;
+    padding-bottom: 0;
   }
 }
 

@@ -93,11 +93,10 @@
 .espaco-marca__video-inner {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Contain em vez de cover para não cortar a logo */
+  object-fit: contain;
   display: block;
-  /* Máscara radial para fazer as quinas sumirem completamente e mesclarem no fundo */
-  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
-  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* =========================================
