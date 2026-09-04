@@ -159,6 +159,26 @@ export function initPrincipios() {
           });
         }
       });
+    } else {
+      // No Mobile, usamos um IntersectionObserver puro para as transições CSS com delay
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Quando a seção inteira entra, ativa todos (os delays no CSS cuidam da ordem)
+            items.forEach(item => item.classList.add('visivel'));
+            obs.unobserve(entry.target); // Para rodar apenas 1 vez
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -10% 0px'
+      });
+
+      // Observa a lista inteira (pai dos itens)
+      const lista = root.querySelector('.principios__lista');
+      if (lista) {
+        observer.observe(lista);
+      }
     }
   }
 }
