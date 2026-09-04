@@ -227,10 +227,17 @@ export const initAbout = (root = document.querySelector(MODULE_SELECTOR)) => {
   const partes = coletar(root);
 
   const contexto = gsap.context(() => {
-    const isMobile = window.innerWidth < 768;
+    const corDoFundo = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--color-night')
+      .trim();
 
-    // A entrada da marca e da foto
-    if (!isMobile) {
+    const mm = gsap.matchMedia();
+
+    // ==========================================
+    // DESKTOP LOGIC (Gatilhos originais pesados)
+    // ==========================================
+    mm.add('(min-width: 768px)', () => {
       ScrollTrigger.create({
         trigger: root,
         animation: construirEntrada(partes),
@@ -238,26 +245,8 @@ export const initAbout = (root = document.querySelector(MODULE_SELECTOR)) => {
         end: 'top top',
         scrub: SCRUB.pesado,
       });
-    } else {
-      // No mobile, a entrada e mais direta e precoce
-      ScrollTrigger.create({
-        trigger: root,
-        animation: construirEntrada(partes),
-        start: 'top 95%',
-        end: 'top 50%',
-        scrub: SCRUB.pesado,
-      });
-    }
 
-    const corDoFundo = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-night')
-      .trim();
-
-    // O texto (Acendimento letra por letra) so ocorre no desktop para nao prender o mobile no estado escuro!
-    if (!isMobile) {
       const acendimento = construirAcendimento(partes.texto, corDoFundo);
-
       ScrollTrigger.create({
         trigger: root,
         animation: acendimento.timeline,
@@ -273,43 +262,60 @@ export const initAbout = (root = document.querySelector(MODULE_SELECTOR)) => {
         end: 'bottom top',
         scrub: SCRUB.pesado,
       });
-    } else {
-      // No mobile, apenas garantimos que o texto ja entre visivel (opacity: 1 nativo)
-      // E fazemos um pequeno fade up simples para nao conflitar
-      gsap.from(partes.texto, {
-        opacity: 0,
-        y: 20,
-        duration: 1,
-        stagger: 0.1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: partes.texto[0],
-          start: 'top 95%', // Gatilho precoce
-          toggleActions: 'play none none none',
-        },
+      
+      // Deriva do bloco inteiro
+      if (partes.bloco) {
+        ScrollTrigger.create({
+          trigger: root,
+          animation: construirDeriva(partes.bloco, DERIVA.desktop),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: SCRUB.deriva,
+        });
+      }
+    });
+
+    // ==========================================
+    // MOBILE LOGIC (Gatilhos adaptados/mais brandos)
+    // ==========================================
+    mm.add('(max-width: 767px)', () => {
+      ScrollTrigger.create({
+        trigger: root,
+        animation: construirEntrada(partes),
+        start: 'top 95%', // Entra muito mais cedo
+        end: 'top 60%',
+        scrub: SCRUB.pesado,
       });
-    }
 
-    /* A deriva cobre a passagem inteira, do momento em que a secao aponta no
-       rodape ate ela sumir por cima: e um movimento so, contínuo. */
-    if (partes.bloco) {
-      const mm = gsap.matchMedia();
+      // Reaproveitamos a função inteira original, mas adaptamos o GATILHO (threshold)!
+      const acendimento = construirAcendimento(partes.texto, corDoFundo);
+      ScrollTrigger.create({
+        trigger: root,
+        animation: acendimento.timeline,
+        start: 'top 85%', // Gatilho dispara logo ao entrar no campo de visão
+        end: '+=100%',    // Termina mais rápido no mobile
+        scrub: SCRUB.leitura,
+      });
 
-      mm.add(
-        { desktop: '(min-width: 768px)', mobile: '(max-width: 767px)' },
-        (contextoMedia) => {
-          const alcance = contextoMedia.conditions.desktop ? DERIVA.desktop : DERIVA.mobile;
-
-          ScrollTrigger.create({
-            trigger: root,
-            animation: construirDeriva(partes.bloco, alcance),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: SCRUB.deriva,
-          });
-        },
-      );
-    }
+      ScrollTrigger.create({
+        trigger: root,
+        animation: construirSaida(partes),
+        start: 'bottom 90%',
+        end: 'bottom 20%',
+        scrub: SCRUB.pesado,
+      });
+      
+      // Deriva do bloco inteiro
+      if (partes.bloco) {
+        ScrollTrigger.create({
+          trigger: root,
+          animation: construirDeriva(partes.bloco, DERIVA.mobile),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: SCRUB.deriva,
+        });
+      }
+    });
   }, root);
 
   if (partes.filme) amarrarFilmeAoScroll(partes.filme, root, contexto);
