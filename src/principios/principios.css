@@ -1,0 +1,237 @@
+/* =========================================================================
+   SEÇÃO DE PRINCÍPIOS (Missão, Visão e Pilares)
+   ========================================================================= */
+
+/* =========================================================================
+   TRANSIÇÃO CRIATIVA (Sobre -> Princípios/Objetivos)
+   ========================================================================= */
+.transicao-sobre-principios {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-night);
+  z-index: 3;
+}
+
+.transicao-sobre-principios__degrade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--color-night) 0%, rgba(13, 36, 59, 0.7) 50%, var(--color-bg) 100%);
+  z-index: 1;
+}
+
+.transicao-sobre-principios__linha {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-gold) 50%, transparent 100%);
+  z-index: 2;
+  transform: scaleX(0);
+  opacity: 0.8;
+}
+
+.transicao-sobre-principios__emblema-wrapper {
+  position: relative;
+  z-index: 3;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-night);
+  border: 1px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.35), inset 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.transicao-sobre-principios__emblema {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =========================================================================
+   CURTAIN REVEAL WRAPPER (SOBREPOSIÇÃO AMARELA)
+   ========================================================================= */
+.principios-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.principios__curtain-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background-color: #ffffff; /* Fundo totalmente branco */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0%);
+  will-change: transform;
+}
+
+.principios__curtain-logo {
+  max-width: 240px;
+  width: 50%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.principios {
+  position: relative;
+  z-index: 2;
+  padding: 15rem 0;
+  background-color: var(--color-bg);
+  color: var(--color-navy);
+}
+
+/* Marca d'água no fundo (Logo) */
+.principios::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120vw;
+  height: 120vw;
+  max-width: 1000px;
+  max-height: 1000px;
+  transform: translate(-50%, -50%);
+  background-image: url("../../public/img/icone-512.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.principios__row {
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .principios__row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.principios__col-header {
+  flex: 0 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .principios__col-header {
+    width: 35%;
+    position: sticky;
+    top: 140px;
+    align-self: flex-start;
+  }
+}
+
+.principios__title {
+  font-family: var(--font-secondary);
+  font-size: clamp(4.2rem, 6vw, 7.2rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: var(--color-navy);
+}
+
+.principios__title .em {
+  color: var(--color-gold);
+  font-style: italic;
+}
+
+.principios__decoration {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-gold);
+  transform-origin: left;
+}
+
+.principios__col-content {
+  flex: 1;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+  .principios__col-content {
+    max-width: 55%;
+  }
+}
+
+.principios__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 22rem; /* Distância vertical bem mais generosa para exigir rolagem e desacelerar a leitura */
+}
+
+@media (max-width: 767px) {
+  .principios__lista {
+    gap: 12rem;
+  }
+}
+
+.principios__item-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.principios__item-text {
+  font-size: 2.2rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+}
+
+.principios__pilares {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.principios__pilares li {
+  font-size: 2.2rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+  position: relative;
+  padding-left: 3rem;
+}
+
+.principios__pilares li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.4rem;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-gold);
+  border-radius: 50%;
+}
+
+.principios__pilares strong {
+  color: var(--color-navy);
+  font-weight: 700;
+}
+
+

@@ -16,9 +16,13 @@ import { createSmoothScroll } from './src/services/scroll.js';
 import { initHeader } from './src/header/header.js';
 import { initHero } from './src/hero/hero.js';
 import { initAbout } from './src/about/about.js';
+import { initPrincipios } from './src/principios/principios.js';
+import { initMarca } from './src/marca/marca.js';
+import { initForSale } from './src/for-sale/for-sale.js';
+import { initAnunciarModal } from './src/header/anunciar-modal.js';
 
 /* Modulos de secao, na ordem em que aparecem na pagina. */
-const MODULES = [initHeader, initHero, initAbout];
+const MODULES = [initHeader, initHero, initAbout, initPrincipios, initMarca, initForSale, initAnunciarModal];
 
 const root = document.documentElement;
 
@@ -34,6 +38,12 @@ const publishScrollbarWidth = () => {
 const startModules = () => MODULES.map((init) => init()).filter(Boolean);
 
 const start = () => {
+  /* Força a página a carregar sempre no Hero, ignorando o cache de rolagem do navegador */
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   gsap.registerPlugin(ScrollTrigger);
 
   /* No celular, a barra de endereco aparecendo e sumindo muda a altura da

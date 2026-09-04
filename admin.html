@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel Administrativo | Corretor Xavier Júnior</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="public/img/icone-32.png" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      :root {
+        --color-bg-dark: #091827;
+        --color-card-dark: #0d243b;
+        --color-card-border: rgba(212, 175, 55, 0.3);
+      }
+
+      body.admin-page {
+        background-color: var(--color-bg-dark);
+        color: #ffffff;
+        font-family: 'Instrument Sans', sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        padding-bottom: 5rem;
+      }
+
+      .admin-header {
+        background: #06101c;
+        border-bottom: 1px solid var(--color-card-border);
+        padding: 1.8rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .admin-header__brand {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .admin-header__logo {
+        height: 40px;
+      }
+
+      .admin-header__title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--color-gold);
+        letter-spacing: 0.05em;
+      }
+
+      .admin-header__badge {
+        background: rgba(212, 175, 55, 0.15);
+        border: 1px solid var(--color-gold);
+        color: var(--color-gold);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .admin-container {
+        max-width: 1280px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+      }
+
+      .admin-tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+      }
+
+      .admin-tab {
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .admin-tab.is-active {
+        background: var(--color-gold);
+        color: #0d243b;
+        border-color: var(--color-gold);
+      }
+
+      .admin-panel-section {
+        display: none;
+      }
+
+      .admin-panel-section.is-active {
+        display: block;
+      }
+
+      .admin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 3.5rem;
+      }
+
+      @media (max-width: 1024px) {
+        .admin-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .admin-card {
+        background: var(--color-card-dark);
+        border: 1px solid var(--color-card-border);
+        border-radius: 14px;
+        padding: 3rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .admin-card__title {
+        font-family: 'Lora', serif;
+        font-size: 2.2rem;
+        color: var(--color-gold);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .admin-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+      }
+
+      .admin-form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .admin-form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .admin-label {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .admin-input,
+      .admin-textarea,
+      .admin-select {
+        width: 100%;
+        padding: 1.2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 1.4rem;
+        font-family: inherit;
+      }
+
+      .admin-input:focus,
+      .admin-textarea:focus,
+      .admin-select:focus {
+        outline: none;
+        border-color: var(--color-gold);
+      }
+
+      .admin-btn {
+        padding: 1.2rem 2.4rem;
+        border-radius: 8px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .admin-btn--primary {
+        background: var(--color-gold);
+        color: #0d243b;
+      }
+
+      .admin-btn--primary:hover {
+        background: #f1d775;
+        transform: translateY(-2px);
+      }
+
+      .admin-btn--danger {
+        background: rgba(231, 76, 60, 0.2);
+        border: 1px solid #e74c3c;
+        color: #ff6b6b;
+      }
+
+      .admin-btn--danger:hover {
+        background: #e74c3c;
+        color: #fff;
+      }
+
+      .admin-btn--sm {
+        padding: 0.6rem 1.2rem;
+        font-size: 1.2rem;
+      }
+
+      /* Tabela de Imóveis */
+      .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .admin-table th,
+      .admin-table td {
+        padding: 1.4rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 1.4rem;
+      }
+
+      .admin-table th {
+        color: var(--color-gold);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        letter-spacing: 0.05em;
+      }
+
+      .admin-thumb-preview {
+        width: 60px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--color-gold);
+      }
+
+      .admin-status-tag {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .admin-status-tag--ativo {
+        background: rgba(46, 204, 113, 0.2);
+        color: #2ecc71;
+        border: 1px solid #2ecc71;
+      }
+
+      .admin-status-tag--inativo {
+        background: rgba(231, 76, 60, 0.2);
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
+      }
+
+      .admin-photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .admin-photo-item {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+
+      .admin-photo-item.is-cover {
+        border-color: var(--color-gold);
+      }
+
+      .admin-photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .admin-photo-cover-tag {
+        position: absolute;
+        bottom: 2px;
+        left: 2px;
+        background: var(--color-gold);
+        color: #0d243b;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body class="admin-page">
+    <header class="admin-header">
+      <div class="admin-header__brand">
+        <img src="public/img/icone-512.png" alt="Xavier Júnior" class="admin-header__logo" />
+        <span class="admin-header__title">PAINEL XAVIER JÚNIOR</span>
+        <span class="admin-header__badge">Administração Imobiliária</span>
+      </div>
+      <a href="index.html" class="admin-btn admin-btn--primary">Ver Vitrine do Site &rarr;</a>
+    </header>
+
+    <main class="admin-container">
+      <div class="admin-tabs">
+        <button type="button" class="admin-tab is-active" data-tab="imoveis">🏡 Imóveis na Vitrine</button>
+        <button type="button" class="admin-tab" data-tab="propostas">📩 Propostas de Anúncio (<span id="count-propostas">0</span>)</button>
+      </div>
+
+      <!-- SEÇÃO 1: GERENCIAR IMÓVEIS -->
+      <section id="tab-imoveis" class="admin-panel-section is-active">
+        <div class="admin-grid">
+          <!-- FORMULÁRIO DE CADASTRO -->
+          <div class="admin-card">
+            <h2 class="admin-card__title" id="form-title">Cadastrar Novo Imóvel</h2>
+            <form id="form-imovel" class="admin-form">
+              <input type="hidden" id="imovel-id" />
+
+              <div class="admin-form-group">
+                <label class="admin-label">Título do Anúncio *</label>
+                <input type="text" id="imovel-titulo" required class="admin-input" placeholder="Ex: Mansão Contemporânea no Alphaville" />
+              </div>
+
+              <div class="admin-form-row">
+                <div class="admin-form-group">
+                  <label class="admin-label">Preço (R$) *</label>
+                  <input type="text" id="imovel-preco" required class="admin-input" placeholder="Ex: R$ 1.850.000,00" />
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-label">Status *</label>
+                  <select id="imovel-status" class="admin-select">
+                    <option value="Ativo">Ativo na Vitrine</option>
+                    <option value="Inativo">Inativo / Oculto</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="admin-form-group">
+                <label class="admin-label">Bairro e Cidade *</label>
+                <input type="text" id="imovel-bairro" required class="admin-input" placeholder="Ex: Jardins, Aracaju - SE" />
+              </div>
+
+              <div class="admin-form-row">
+                <div class="admin-form-group">
+                  <label class="admin-label">Quartos</label>
+                  <input type="number" id="imovel-quartos" value="4" class="admin-input" />
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-label">Banheiros</label>
+                  <input type="number" id="imovel-banheiros" value="4" class="admin-input" />
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-label">Vagas</label>
+                  <input type="number" id="imovel-vagas" value="3" class="admin-input" />
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-label">Área (m²)</label>
+                  <input type="number" id="imovel-area" value="350" class="admin-input" />
+                </div>
+              </div>
+
+              <div class="admin-form-group">
+                <label class="admin-label">Descrição do Imóvel</label>
+                <textarea id="imovel-descricao" rows="3" class="admin-textarea" placeholder="Detalhes de acabamento, localização, área de lazer..."></textarea>
+              </div>
+
+              <div class="admin-form-group">
+                <label class="admin-label">Upload de Fotos (Clique para selecionar a Capa)</label>
+                <input type="file" id="imovel-fotos" multiple accept="image/*" class="admin-input" />
+                <div class="admin-photo-grid" id="admin-photo-preview"></div>
+              </div>
+
+              <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="admin-btn admin-btn--primary" style="flex: 1;">Salvar Imóvel na Vitrine</button>
+                <button type="button" id="btn-cancel-edit" class="admin-btn" style="display: none; background: rgba(255,255,255,0.1); color: #fff;">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- LISTA DE IMÓVEIS -->
+          <div class="admin-card">
+            <h2 class="admin-card__title">Imóveis Cadastrados</h2>
+            <div style="overflow-x: auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Capa</th>
+                    <th>Imóvel</th>
+                    <th>Preço</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-imoveis-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEÇÃO 2: PROPOSTAS RECEBIDAS DO "ANUNCIE SUA CASA" -->
+      <section id="tab-propostas" class="admin-panel-section">
+        <div class="admin-card">
+          <h2 class="admin-card__title">Propostas de Anúncio Enviadas por Clientes</h2>
+          <div style="overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Telefone / WhatsApp</th>
+                  <th>Endereço do Imóvel</th>
+                  <th>Valor Desejado</th>
+                  <th>Fotos</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="lista-propostas-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { getImoveis } from './src/for-sale/for-sale.js';
+
+      // Alternância de Abas
+      const tabs = document.querySelectorAll('.admin-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('is-active'));
+          document.querySelectorAll('.admin-panel-section').forEach(s => s.classList.remove('is-active'));
+          
+          tab.classList.add('is-active');
+          document.getElementById('tab-' + tab.dataset.tab).classList.add('is-active');
+        });
+      });
+
+      // Gerenciamento de Dados
+      let imoveis = getImoveis();
+      let fotosBase64 = [];
+      let fotoCapaIndex = 0;
+
+      const renderTabelaImoveis = () => {
+        const tbody = document.getElementById('lista-imoveis-body');
+        if (imoveis.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: #888;">Nenhum imóvel cadastrado.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = imoveis.map(item => `
+          <tr>
+            <td>
+              <img src="${item.fotoCapa || 'public/img/hero-house.png'}" class="admin-thumb-preview" alt="Capa">
+            </td>
+            <td>
+              <strong>${item.titulo}</strong><br>
+              <small style="color: #888;">${item.bairro}</small>
+            </td>
+            <td><strong style="color: var(--color-gold);">${item.preco}</strong></td>
+            <td>
+              <span class="admin-status-tag admin-status-tag--${item.status.toLowerCase()}">${item.status}</span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="admin-btn admin-btn--sm" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="editarImovel('${item.id}')">✏️</button>
+                <button class="admin-btn admin-btn--sm admin-btn--danger" onclick="excluirImovel('${item.id}')">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      };
+
+      const renderPropostas = () => {
+        const propostas = JSON.parse(localStorage.getItem('propostas_anuncios') || '[]');
+        document.getElementById('count-propostas').textContent = propostas.length;
+        const tbody = document.getElementById('lista-propostas-body');
+
+        if (propostas.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem; color: #888;">Nenhuma proposta recebida ainda.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = propostas.map(p => {
+          const numFormatado = p.telefone.replace(/\D/g, '');
+          const waUrl = `https://wa.me/55${numFormatado}?text=${encodeURIComponent('Olá ' + p.nome + ', recebi sua proposta de anúncio do imóvel no valor de ' + p.valor)}`;
+
+          return `
+            <tr>
+              <td><small>${p.data}</small></td>
+              <td><strong>${p.nome}</strong></td>
+              <td>
+                <a href="${waUrl}" target="_blank" class="admin-btn admin-btn--sm admin-btn--primary" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;">
+                  💬 ${p.telefone}
+                </a>
+              </td>
+              <td>${p.endereco}</td>
+              <td><strong style="color: var(--color-gold);">${p.valor || 'A combinar'}</strong></td>
+              <td>
+                <div style="display:flex; gap:0.4rem;">
+                  ${(p.fotos || []).slice(0, 3).map(f => `<img src="${f}" style="width:36px; height:36px; object-fit:cover; border-radius:4px;">`).join('')}
+                </div>
+              </td>
+              <td>
+                <button class="admin-btn admin-btn--sm admin-btn--danger" onclick="excluirProposta('${p.id}')">Excluir</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      };
+
+      // Upload de Fotos e Seleção da Foto de Capa
+      const fotosInput = document.getElementById('imovel-fotos');
+      const photoPreview = document.getElementById('admin-photo-preview');
+
+      fotosInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        fotosBase64 = [];
+
+        files.forEach((file, index) => {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            fotosBase64.push(evt.target.result);
+            renderFotoPreview();
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      function renderFotoPreview() {
+        photoPreview.innerHTML = fotosBase64.map((src, idx) => `
+          <div class="admin-photo-item ${idx === fotoCapaIndex ? 'is-cover' : ''}" onclick="setFotoCapa(${idx})">
+            <img src="${src}">
+            ${idx === fotoCapaIndex ? '<span class="admin-photo-cover-tag">Capa</span>' : ''}
+          </div>
+        `).join('');
+      }
+
+      window.setFotoCapa = (idx) => {
+        fotoCapaIndex = idx;
+        renderFotoPreview();
+      };
+
+      // Submissão do Formulário
+      const form = document.getElementById('form-imovel');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const idEdit = document.getElementById('imovel-id').value;
+
+        const novoImovel = {
+          id: idEdit || 'imovel_' + Date.now(),
+          titulo: document.getElementById('imovel-titulo').value,
+          preco: document.getElementById('imovel-preco').value,
+          status: document.getElementById('imovel-status').value,
+          bairro: document.getElementById('imovel-bairro').value,
+          quartos: Number(document.getElementById('imovel-quartos').value),
+          banheiros: Number(document.getElementById('imovel-banheiros').value),
+          vagas: Number(document.getElementById('imovel-vagas').value),
+          area: Number(document.getElementById('imovel-area').value),
+          descricao: document.getElementById('imovel-descricao').value,
+          fotoCapa: fotosBase64[fotoCapaIndex] || 'public/img/hero-house.png',
+          galeria: fotosBase64,
+        };
+
+        if (idEdit) {
+          imoveis = imoveis.map(item => item.id === idEdit ? novoImovel : item);
+        } else {
+          imoveis.unshift(novoImovel);
+        }
+
+        localStorage.setItem('imoveis_xavier', JSON.stringify(imoveis));
+        resetForm();
+        renderTabelaImoveis();
+        alert('Imóvel salvo na vitrine com sucesso!');
+      });
+
+      function resetForm() {
+        form.reset();
+        document.getElementById('imovel-id').value = '';
+        document.getElementById('form-title').textContent = 'Cadastrar Novo Imóvel';
+        document.getElementById('btn-cancel-edit').style.display = 'none';
+        fotosBase64 = [];
+        fotoCapaIndex = 0;
+        photoPreview.innerHTML = '';
+      }
+
+      document.getElementById('btn-cancel-edit').addEventListener('click', resetForm);
+
+      window.editarImovel = (id) => {
+        const item = imoveis.find(i => i.id === id);
+        if (!item) return;
+
+        document.getElementById('imovel-id').value = item.id;
+        document.getElementById('imovel-titulo').value = item.titulo;
+        document.getElementById('imovel-preco').value = item.preco;
+        document.getElementById('imovel-status').value = item.status;
+        document.getElementById('imovel-bairro').value = item.bairro;
+        document.getElementById('imovel-quartos').value = item.quartos;
+        document.getElementById('imovel-banheiros').value = item.banheiros;
+        document.getElementById('imovel-vagas').value = item.vagas;
+        document.getElementById('imovel-area').value = item.area;
+        document.getElementById('imovel-descricao').value = item.descricao || '';
+
+        document.getElementById('form-title').textContent = 'Editar Imóvel';
+        document.getElementById('btn-cancel-edit').style.display = 'block';
+
+        if (item.galeria && item.galeria.length > 0) {
+          fotosBase64 = item.galeria;
+          renderFotoPreview();
+        }
+      };
+
+      window.excluirImovel = (id) => {
+        if (confirm('Tem certeza que deseja remover este imóvel da vitrine?')) {
+          imoveis = imoveis.filter(i => i.id !== id);
+          localStorage.setItem('imoveis_xavier', JSON.stringify(imoveis));
+          renderTabelaImoveis();
+        }
+      };
+
+      window.excluirProposta = (id) => {
+        if (confirm('Deseja excluir esta proposta de anúncio?')) {
+          let propostas = JSON.parse(localStorage.getItem('propostas_anuncios') || '[]');
+          propostas = propostas.filter(p => p.id !== id);
+          localStorage.setItem('propostas_anuncios', JSON.stringify(propostas));
+          renderPropostas();
+        }
+      };
+
+      // Inicialização
+      renderTabelaImoveis();
+      renderPropostas();
+    </script>
+  </body>
+</html>

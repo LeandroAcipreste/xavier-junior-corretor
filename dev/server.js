@@ -16,7 +16,7 @@ const path = require('node:path');
 
 /* O servidor vive em dev/, mas serve a raiz do projeto. */
 const ROOT = path.join(__dirname, '..');
-const PORT = Number(process.argv[2] || 8177);
+const PORT = Number(process.argv[2] || 8188);
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',

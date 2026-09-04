@@ -25,8 +25,12 @@
 
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="src/header/header.css" />
+    <link rel="stylesheet" href="src/header/anunciar-modal.css" />
     <link rel="stylesheet" href="src/hero/hero.css" />
     <link rel="stylesheet" href="src/about/about.css" />
+    <link rel="stylesheet" href="src/principios/principios.css" />
+    <link rel="stylesheet" href="src/marca/marca.css" />
+    <link rel="stylesheet" href="src/for-sale/for-sale.css" />
     <link rel="stylesheet" href="src/footer/footer.css" />
     <link rel="stylesheet" href="src/consent/consent.css" />
 
@@ -61,7 +65,7 @@
               <a class="header__nav-link" href="#anunciar"><span data-text="Anuncie sua casa">Anuncie sua casa</span></a>
             </div>
             <div class="header__nav-item">
-              <a class="header__nav-link" href="#visita"><span data-text="Agende uma visita">Agende uma visita</span></a>
+              <a class="header__nav-link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer"><span data-text="Agende uma visita">Agende uma visita</span></a>
             </div>
           </nav>
 
@@ -89,7 +93,7 @@
             <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#sobre">Sobre</a></div>
             <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#comprar">Compre sua casa</a></div>
             <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#anunciar">Anuncie sua casa</a></div>
-            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="#visita">Agende uma visita</a></div>
+            <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer">Agende uma visita</a></div>
             <div class="burger-menu__nav-item"><a class="burger-menu__nav-link" href="/src/pages/politica-de-privacidade.html">Política de Privacidade</a></div>
           </nav>
 
@@ -289,11 +293,139 @@
       </section>
       <!-- =============== /SOBRE ================= -->
 
-      <!-- ================ ESPACO ================= -->
-      <!-- Provisorio: existe so para dar rolagem a saida da dobra anterior.
-           Trocar pela proxima secao de verdade. -->
-      <section class="espaco"></section>
-      <!-- =============== /ESPACO ================= -->
+      <!-- ================ TRANSIÇÃO SOBRE -> PRINCIPIOS ================ -->
+      <div class="transicao-sobre-principios" data-transicao="sobre-principios">
+        <div class="transicao-sobre-principios__degrade"></div>
+        <div class="transicao-sobre-principios__linha"></div>
+        <div class="transicao-sobre-principios__emblema-wrapper">
+          <img src="public/img/icone-512.png" alt="Emblema Xavier Júnior" class="transicao-sobre-principios__emblema" />
+        </div>
+      </div>
+
+      <!-- ================ PRINCIPIOS ================ -->
+      <div class="principios-wrapper">
+        <div class="principios__curtain-overlay" data-principios="curtain">
+          <img src="public/img/logo-xavier-240.webp" alt="Logo Xavier Júnior" class="principios__curtain-logo" />
+        </div>
+        <section class="principios" id="principios" data-module="principios">
+          <div class="container container--wide">
+            <div class="principios__row">
+              <div class="principios__col-header">
+                <h2 class="principios__title" data-principios="title">
+                  Meus<br><span class="em">Objetivos</span>
+                </h2>
+                <div class="principios__decoration" data-principios="line" aria-hidden="true"></div>
+              </div>
+
+              <div class="principios__col-content">
+                <div class="principios__lista">
+                  
+                  <div class="principios__item" data-principios="item">
+                    <h3 class="principios__item-title">Missão</h3>
+                    <p class="principios__item-text">
+                      Conduzir transações imobiliárias com absoluta transparência, zelo e diligência. 
+                      Nosso dever é proteger os interesses dos nossos clientes, esclarecendo todos 
+                      os riscos e garantindo a segurança jurídica em cada etapa, da primeira visita 
+                      à entrega das chaves.
+                    </p>
+                  </div>
+
+                  <div class="principios__item" data-principios="item">
+                    <h3 class="principios__item-title">Visão</h3>
+                    <p class="principios__item-text">
+                      Ser a referência inquestionável em retidão no mercado imobiliário. 
+                      Acreditamos que negócios sólidos e relações duradouras só são possíveis 
+                      quando a clareza e o respeito absoluto às normas da profissão formam a base de 
+                      qualquer acordo.
+                    </p>
+                  </div>
+
+                  <div class="principios__item" data-principios="item">
+                    <h3 class="principios__item-title">Pilares</h3>
+                    <ul class="principios__pilares">
+                      <li>
+                        <strong>Legalidade e Clareza:</strong> Repúdio à ocultação de informações. 
+                        A documentação e o estado real do imóvel são apresentados com total franqueza.
+                      </li>
+                      <li>
+                        <strong>Diligência Profissional:</strong> Verificação rigorosa de certidões 
+                        e riscos inerentes, garantindo que o cliente tome decisões 100% conscientes e seguras.
+                      </li>
+                      <li>
+                        <strong>Respeito e Retidão:</strong> Atuação justa e imparcial, honrando a 
+                        confiança depositada e defendendo os direitos de todas as partes envolvidas.
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- =============== /PRINCIPIOS ================ -->
+
+      <!-- ================ MEU ESPAÇO ================ -->
+      <section class="espaco-marca" id="meu-espaco">
+        <div class="container espaco-marca__container">
+          <header class="espaco-marca__header">
+            <h2 class="espaco-marca__title">
+              Meu<br><span class="em">Espaço</span>
+            </h2>
+            <div class="espaco-marca__decoration" aria-hidden="true"></div>
+            <p class="espaco-marca__subtitle">
+              Aqui é o espaço especial onde faremos seu sonho se tornar realidade
+            </p>
+          </header>
+
+          <div class="espaco-marca__grid">
+            <div class="espaco-marca__video-col">
+              <div class="espaco-marca__video-wrapper">
+                <video 
+                  class="espaco-marca__video-inner" 
+                  src="public/videos/Rotate_logo_360_degrees_202609032120.mp4" 
+                  autoplay 
+                  loop 
+                  muted 
+                  playsinline
+                ></video>
+              </div>
+            </div>
+            <div class="espaco-marca__fotos-col">
+              <div class="espaco-marca__fotos-window">
+                <div class="espaco-marca__foto-track">
+                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 1</span></div>
+                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 2</span></div>
+                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 3</span></div>
+                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 4</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =============== /MEU ESPAÇO ================ -->
+
+      <!-- ================ IMÓVEIS PARA VENDER (FOR SALE) ================ -->
+      <section class="for-sale" id="comprar" data-module="for-sale">
+        <div class="container">
+          <header class="for-sale__header">
+            <h2 class="for-sale__title">
+              Imóveis <span class="em">exclusivos</span> à venda
+            </h2>
+            <div class="for-sale__decoration" aria-hidden="true"></div>
+            <p class="for-sale__subtitle">
+              Seleção curada de residências e oportunidades imobiliárias com garantia de transparência e acompanhamento completo.
+            </p>
+          </header>
+
+          <div class="for-sale__grid" data-for-sale="grid">
+            <!-- Cards renderizados dinamicamente pelo JavaScript (for-sale.js) -->
+          </div>
+        </div>
+      </section>
+      <!-- =============== /IMÓVEIS PARA VENDER ================ -->
     </main>
 
     <!-- ================ RODAPE ================= -->
@@ -320,7 +452,7 @@
               <li><a class="rodape__link" href="#sobre">Sobre</a></li>
               <li><a class="rodape__link" href="#comprar">Compre sua casa</a></li>
               <li><a class="rodape__link" href="#anunciar">Anuncie sua casa</a></li>
-              <li><a class="rodape__link" href="#visita">Agende uma visita</a></li>
+              <li><a class="rodape__link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer">Agende uma visita</a></li>
             </ul>
           </nav>
 
@@ -494,5 +626,61 @@
     <script type="module" src="src/consent/bootstrap.js"></script>
     <script type="module" src="main.js"></script>
 
+    <!-- ================ MODAL ANUNCIE SUA CASA ================ -->
+    <div class="anunciar-modal-overlay" id="anunciar-modal-overlay" aria-hidden="true">
+      <div class="anunciar-modal" id="anunciar-modal" role="dialog" aria-modal="true" aria-labelledby="anunciar-modal-title">
+        <button type="button" class="anunciar-modal__close" id="anunciar-modal-close" aria-label="Fechar modal">&times;</button>
+        
+        <header class="anunciar-modal__header">
+          <h2 class="anunciar-modal__title" id="anunciar-modal-title">Anuncie sua Casa com <span class="em">Xavier Júnior</span></h2>
+          <p class="anunciar-modal__subtitle">Preencha as informações do imóvel. Nossa equipe entrará em contato para agendar a avaliação presencial.</p>
+        </header>
+
+        <form id="anunciar-modal-form" class="anunciar-modal__form">
+          <div class="anunciar-modal__field">
+            <label class="anunciar-modal__label" for="anunciar-nome">Nome Completo *</label>
+            <input type="text" id="anunciar-nome" required class="anunciar-modal__input" placeholder="Digite seu nome completo">
+          </div>
+
+          <div class="anunciar-modal__field">
+            <label class="anunciar-modal__label" for="anunciar-telefone">Telefone / WhatsApp *</label>
+            <input type="tel" id="anunciar-telefone" required class="anunciar-modal__input" placeholder="(79) 99999-9999">
+          </div>
+
+          <div class="anunciar-modal__field">
+            <label class="anunciar-modal__label" for="anunciar-endereco">Endereço do Imóvel *</label>
+            <input type="text" id="anunciar-endereco" required class="anunciar-modal__input" placeholder="Rua, Número, Bairro, Cidade">
+          </div>
+
+          <div class="anunciar-modal__field">
+            <label class="anunciar-modal__label" for="anunciar-valor">Valor Desejado</label>
+            <input type="text" id="anunciar-valor" class="anunciar-modal__input" placeholder="Ex: R$ 850.000,00">
+          </div>
+
+          <div class="anunciar-modal__field">
+            <label class="anunciar-modal__label">Fotos do Imóvel</label>
+            <div class="anunciar-modal__dropzone" id="anunciar-dropzone">
+              <div class="anunciar-modal__dropzone-icon">📷</div>
+              <div class="anunciar-modal__dropzone-text">Arraste as fotos do imóvel aqui ou clique para selecionar</div>
+              <div class="anunciar-modal__dropzone-subtext">Formatos permitidos: JPG, PNG, WEBP (múltiplos arquivos)</div>
+              <input type="file" id="anunciar-fotos" multiple accept="image/*" class="anunciar-modal__file-input">
+            </div>
+            <div class="anunciar-modal__thumbnails" id="anunciar-thumbnails"></div>
+          </div>
+
+          <div class="anunciar-modal__success" id="anunciar-success">
+            ✅ Proposta enviada com sucesso! O corretor Xavier Júnior entrará em contato em breve para dar prosseguimento ao seu anúncio.
+          </div>
+
+          <button type="submit" class="button-round button-round--primary anunciar-modal__submit">
+            <span class="button-round__content">
+              <span class="button-round__text">
+                <span>Enviar Proposta de Anúncio</span>
+              </span>
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
