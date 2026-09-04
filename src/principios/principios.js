@@ -126,36 +126,39 @@ export function initPrincipios() {
 
   // 4. Animação de entrada desacelerada e cadenciada dos blocos
   if (items.length > 0) {
-    const isMobile = window.innerWidth < 1024;
-    items.forEach((item) => {
-      gsap.from(item, {
-        opacity: 0,
-        y: isMobile ? 30 : 60,
-        duration: isMobile ? 1.0 : 1.6,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: item,
-          start: isMobile ? 'top 85%' : 'top 65%',
-          toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
-        },
-      });
-
-      // Revelação com atraso visível entre cada um dos tópicos dos Pilares
-      const pilaresItems = item.querySelectorAll('.principios__pilares li');
-      if (pilaresItems.length > 0) {
-        gsap.from(pilaresItems, {
+    const isMobile = window.innerWidth < 768;
+    
+    if (!isMobile) {
+      items.forEach((item) => {
+        gsap.from(item, {
           opacity: 0,
-          x: isMobile ? 15 : 30,
-          duration: isMobile ? 0.8 : 1.2,
-          stagger: isMobile ? 0.2 : 0.4,
-          ease: 'power2.out',
+          y: 60,
+          duration: 1.6,
+          ease: 'power3.out',
           scrollTrigger: {
-            trigger: item.querySelector('.principios__pilares'),
-            start: isMobile ? 'top 88%' : 'top 68%',
-            toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
+            trigger: item,
+            start: 'top 65%',
+            toggleActions: 'play none none reverse',
           },
         });
-      }
-    });
+
+        // Revelação com atraso visível entre cada um dos tópicos dos Pilares
+        const pilaresItems = item.querySelectorAll('.principios__pilares li');
+        if (pilaresItems.length > 0) {
+          gsap.from(pilaresItems, {
+            opacity: 0,
+            x: 30,
+            duration: 1.2,
+            stagger: 0.4,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: item.querySelector('.principios__pilares'),
+              start: 'top 68%',
+              toggleActions: 'play none none reverse',
+            },
+          });
+        }
+      });
+    }
   }
 }

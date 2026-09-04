@@ -284,4 +284,30 @@
   font-weight: 700;
 }
 
+/* =========================================
+   FORÇAR COMPORTAMENTO E VISIBILIDADE NO MOBILE
+   ========================================= */
+@media (max-width: 767px) {
+  .principios__col-header {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    background-color: #ffffff !important;
+    padding: 24px 0 !important;
+    margin-bottom: 24px !important;
+  }
 
+  .principios__row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .principios__item,
+  .principios__pilares li {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}
