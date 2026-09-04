@@ -37,8 +37,13 @@ const MIME = {
 
 const resolver = (url) => {
   const pathname = decodeURIComponent(url.split('?')[0]);
-  const arquivo = path.join(ROOT, pathname === '/' ? '/index.html' : pathname);
-
+  if (pathname === '/admin' || pathname === '/painel-xavier') {
+    return path.join(ROOT, '/admin.html');
+  }
+  let arquivo = path.join(ROOT, pathname === '/' ? '/index.html' : pathname);
+  if (!fs.existsSync(arquivo) && fs.existsSync(arquivo + '.html')) {
+    arquivo = arquivo + '.html';
+  }
   return arquivo.startsWith(ROOT) ? arquivo : null;
 };
 
