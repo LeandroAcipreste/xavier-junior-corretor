@@ -131,12 +131,13 @@
 
 .principios__col-header {
   flex: 0 0 auto;
+  position: -webkit-sticky;
   position: sticky;
-  top: 90px;
+  top: 80px;
   align-self: flex-start;
-  z-index: 10;
+  z-index: 20;
   background-color: var(--color-bg);
-  padding-bottom: 1.5rem;
+  padding: 1.5rem 0;
   width: 100%;
 }
 
@@ -144,7 +145,8 @@
   .principios__col-header {
     width: 35%;
     top: 140px;
-    padding-bottom: 0;
+    padding: 0;
+    background-color: transparent;
   }
 }
 

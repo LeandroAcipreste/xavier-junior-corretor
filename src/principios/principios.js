@@ -110,15 +110,18 @@ export function initPrincipios() {
   const contentCol = section.querySelector('.principios__col-content');
 
   if (headerCol && contentCol) {
-    ScrollTrigger.create({
-      trigger: headerCol,
-      start: () => (window.innerWidth < 1024 ? 'top 90px' : 'top 140px'),
-      endTrigger: contentCol,
-      end: 'bottom bottom',
-      pin: true,
-      pinSpacing: false,
-      invalidateOnRefresh: true,
-    });
+    // No Desktop, usa GSAP Pinning. No Mobile, usa o CSS position: sticky nativo que é 100% fluido
+    if (window.innerWidth >= 1024) {
+      ScrollTrigger.create({
+        trigger: headerCol,
+        start: 'top 140px',
+        endTrigger: contentCol,
+        end: 'bottom bottom',
+        pin: true,
+        pinSpacing: false,
+        invalidateOnRefresh: true,
+      });
+    }
   }
 
   // 4. Animação de entrada desacelerada e cadenciada dos blocos da direita

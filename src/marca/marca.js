@@ -35,15 +35,18 @@ export function initMarca() {
       });
     }
 
+    const isMobile = window.innerWidth < 1024;
+
     if (videoCol) {
       gsap.from(videoCol, {
         opacity: 0,
-        x: -80,
+        x: isMobile ? 0 : -80,
+        y: isMobile ? 30 : 0,
         duration: 1.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: root,
-          start: 'top 75%',
+          trigger: videoCol,
+          start: 'top 85%',
           toggleActions: 'play none none reverse',
         },
       });
@@ -52,30 +55,44 @@ export function initMarca() {
     if (windowBox) {
       gsap.from(windowBox, {
         opacity: 0,
-        x: 80,
+        x: isMobile ? 0 : 80,
+        y: isMobile ? 30 : 0,
         duration: 1.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: root,
-          start: 'top 75%',
+          trigger: windowBox,
+          start: 'top 85%',
           toggleActions: 'play none none reverse',
         },
       });
     }
 
-    // 2. Animação Pinned de Rolagem (Passando as fotos ao chegar no rodapé "PARA")
-    ScrollTrigger.create({
-      trigger: windowBox,
-      start: 'bottom bottom',
-      end: '+=1600',
-      pin: root,
-      scrub: 0.8,
-      animation: gsap.to(track, {
-        xPercent: -75, // transição exata das 4 fotos
+    // 2. Animação de Rolagem das Fotos (Pinned no Desktop, Fluido no Mobile)
+    if (!isMobile) {
+      ScrollTrigger.create({
+        trigger: windowBox,
+        start: 'bottom bottom',
+        end: '+=1600',
+        pin: root,
+        scrub: 0.8,
+        animation: gsap.to(track, {
+          xPercent: -75,
+          ease: 'none',
+        }),
+        invalidateOnRefresh: true,
+      });
+    } else {
+      gsap.to(track, {
+        xPercent: -75,
         ease: 'none',
-      }),
-      invalidateOnRefresh: true,
-    });
+        scrollTrigger: {
+          trigger: windowBox,
+          start: 'top 70%',
+          end: 'bottom 30%',
+          scrub: 0.8,
+        },
+      });
+    }
   }, root);
 
   return {
