@@ -124,19 +124,19 @@ export function initPrincipios() {
     }
   }
 
-  // 4. Animação de entrada desacelerada e cadenciada dos blocos da direita
+  // 4. Animação de entrada desacelerada e cadenciada dos blocos
   if (items.length > 0) {
+    const isMobile = window.innerWidth < 1024;
     items.forEach((item) => {
-      // Revelação bem mais lenta e profunda de cada bloco (MISSÃO, VISÃO, PILARES)
       gsap.from(item, {
         opacity: 0,
-        y: 60,
-        duration: 1.6,
+        y: isMobile ? 30 : 60,
+        duration: isMobile ? 1.0 : 1.6,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: item,
-          start: 'top 65%', // Inicia apenas quando o bloco atinge 65% da tela (mais no centro)
-          toggleActions: 'play none none reverse',
+          start: isMobile ? 'top 85%' : 'top 65%',
+          toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
         },
       });
 
@@ -145,14 +145,14 @@ export function initPrincipios() {
       if (pilaresItems.length > 0) {
         gsap.from(pilaresItems, {
           opacity: 0,
-          x: 30,
-          duration: 1.2,
-          stagger: 0.4, // 400ms de intervalo entre cada item de pilar
+          x: isMobile ? 15 : 30,
+          duration: isMobile ? 0.8 : 1.2,
+          stagger: isMobile ? 0.2 : 0.4,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: item.querySelector('.principios__pilares'),
-            start: 'top 68%',
-            toggleActions: 'play none none reverse',
+            start: isMobile ? 'top 88%' : 'top 68%',
+            toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
           },
         });
       }

@@ -60,15 +60,19 @@
 /* =========================================================================
    CURTAIN REVEAL WRAPPER (SOBREPOSIÇÃO AMARELA)
    ========================================================================= */
+/* =========================================================================
+   CURTAIN REVEAL WRAPPER (SOBREPOSIÇÃO BRANCA)
+   ========================================================================= */
 .principios-wrapper {
   position: relative;
   width: 100%;
+  overflow: visible !important;
 }
 
 .principios__curtain-overlay {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 40;
   background-color: #ffffff; /* Fundo totalmente branco */
   display: flex;
   align-items: center;
@@ -88,9 +92,10 @@
 .principios {
   position: relative;
   z-index: 2;
-  padding: 15rem 0;
-  background-color: var(--color-bg);
+  padding: 4rem 0 10rem 0;
+  background-color: #ffffff;
   color: var(--color-navy);
+  overflow: visible !important;
 }
 
 /* Marca d'água no fundo (Logo) */
@@ -116,29 +121,38 @@
 .principios__row {
   display: flex;
   flex-direction: column;
-  gap: 8rem;
   position: relative;
   z-index: 1;
+  overflow: visible !important;
 }
 
 @media (min-width: 1024px) {
+  .principios {
+    padding: 15rem 0;
+  }
+
   .principios__row {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 8rem;
   }
 }
 
+/* =========================================
+   CABEÇALHO STICKY (MEUS OBJETIVOS) NO MOBILE
+   ========================================= */
 .principios__col-header {
   flex: 0 0 auto;
   position: -webkit-sticky;
   position: sticky;
-  top: 80px;
-  align-self: flex-start;
-  z-index: 20;
-  background-color: var(--color-bg);
-  padding: 1.5rem 0;
+  top: 0px;
+  z-index: 30;
+  background-color: #ffffff;
+  padding: 1.6rem 0;
   width: 100%;
+  border-bottom: 1px solid rgba(13, 33, 55, 0.08);
+  margin-bottom: 3rem;
 }
 
 @media (min-width: 1024px) {
@@ -147,15 +161,17 @@
     top: 140px;
     padding: 0;
     background-color: transparent;
+    border-bottom: none;
+    margin-bottom: 0;
   }
 }
 
 .principios__title {
   font-family: var(--font-secondary);
-  font-size: clamp(4.2rem, 6vw, 7.2rem);
+  font-size: clamp(3.4rem, 6vw, 7.2rem);
   line-height: 1.1;
   font-weight: 400;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--color-navy);
 }
 
@@ -171,42 +187,61 @@
   transform-origin: left;
 }
 
+/* =========================================
+   CONTEÚDO ROLÁVEL (MISSÃO, VISÃO, PILARES)
+   ========================================= */
 .principios__col-content {
   flex: 1;
-  padding-bottom: 5rem;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 1024px) {
   .principios__col-content {
     max-width: 55%;
+    padding-bottom: 5rem;
   }
 }
 
 .principios__lista {
   display: flex;
   flex-direction: column;
-  gap: 22rem; /* Distância vertical bem mais generosa para exigir rolagem e desacelerar a leitura */
+  gap: 5rem;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 1024px) {
   .principios__lista {
-    gap: 12rem;
+    gap: 22rem;
   }
 }
 
+.principios__item {
+  margin-bottom: 1rem;
+}
+
 .principios__item-title {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--color-navy);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .principios__item-text {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   line-height: 1.6;
   color: var(--color-text-body);
+}
+
+@media (min-width: 1024px) {
+  .principios__item-title {
+    font-size: 2.4rem;
+  }
+  .principios__item-text {
+    font-size: 2.2rem;
+  }
 }
 
 .principios__pilares {
@@ -215,22 +250,29 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2.5rem;
 }
 
 .principios__pilares li {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   line-height: 1.6;
   color: var(--color-text-body);
   position: relative;
-  padding-left: 3rem;
+  padding-left: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .principios__pilares li {
+    font-size: 2.2rem;
+    padding-left: 3rem;
+  }
 }
 
 .principios__pilares li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 1.4rem;
+  top: 1.1rem;
   width: 6px;
   height: 6px;
   background-color: var(--color-gold);
