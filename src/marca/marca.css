@@ -143,18 +143,59 @@
 /* =========================================
    ESTADOS DE ENTRADA (LÓGICA CSS NATIVA)
    ========================================= */
-.entrada-titulo,
-.entrada-video {
+.entrada-titulo {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), 
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1),
               transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.entrada-titulo.visivel,
-.entrada-video.visivel {
+.entrada-titulo.visivel {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* As duas colunas vem de fora e se encontram no meio: o video pela esquerda,
+   a caixa das fotos pela direita. E o encontro que fecha a composicao.
+
+   O percurso e horizontal de proposito - o titulo ja sobe, e repetir o mesmo
+   eixo nas tres pecas deixaria a entrada monotona. */
+.entrada-video {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.entrada-fotos {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.entrada-video.visivel,
+.entrada-fotos.visivel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Empilhadas, uma sobre a outra, o percurso lateral encurta: o movimento
+   longo so faz sentido quando ha um lado de onde vir. */
+@media (max-width: 1023px) {
+  .entrada-video {
+    transform: translateX(-32px);
+  }
+
+  .entrada-fotos {
+    transform: translateX(32px);
+  }
+}
+
+/* O titulo acende letra por letra; quem move cada uma e o marca.js. Sem JS
+   as letras nunca sao criadas e o titulo aparece inteiro, como deve. */
+.espaco-marca__title .letra {
+  opacity: 1;
 }
 
 /* =========================================
