@@ -210,19 +210,53 @@
 }
 
 .principios__lista {
+  /* O vao vira variavel porque duas coisas dependem dele: o espaco entre os
+     blocos e a posicao do filete que os separa. Declarado uma vez, os dois
+     nunca saem de sincronia. */
+  --vao: 5rem;
+
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: var(--vao);
 }
 
 @media (min-width: 1024px) {
   .principios__lista {
-    gap: 22rem;
+    --vao: 22rem;
   }
 }
 
 .principios__item {
   margin-bottom: 1rem;
+}
+
+/* Filete dourado entre um objetivo e o proximo.
+
+   Some nas pontas em vez de cortar reto: linha cheia de ponta a ponta pesa e
+   compete com o texto, enquanto o degrade deixa o traco respirar. Um pixel de
+   altura, nao dois - aqui ele separa, nao chama atencao. O tom cheio ja e o
+   do bloco decorativo do titulo, entao os dois conversam sem se repetir.
+
+   Mora no item de BAIXO, e nao no de cima, para o ultimo da lista nao ficar
+   com um separador solto embaixo. A margem negativa o sobe metade do vao,
+   deixando-o centrado entre os dois blocos em vez de colado num deles; a
+   margem de baixo devolve o espaco, entao o ritmo da lista nao muda.
+
+   O item e um flex item, que estabelece contexto de formatacao proprio: sem
+   isso a margem negativa colapsaria com a do item e puxaria o bloco inteiro
+   para cima em vez de mover so o filete. */
+.principios__item + .principios__item::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: calc(var(--vao) / -2) 0 calc(var(--vao) / 2);
+  background: linear-gradient(
+    90deg,
+    rgba(216, 168, 56, 0) 0%,
+    rgba(216, 168, 56, 0.7) 20%,
+    rgba(216, 168, 56, 0.7) 80%,
+    rgba(216, 168, 56, 0) 100%
+  );
 }
 
 .principios__item-title {
