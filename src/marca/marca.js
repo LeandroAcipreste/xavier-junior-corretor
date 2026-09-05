@@ -9,9 +9,9 @@ export function initMarca() {
   const header = document.querySelector('.espaco-marca__header');
   const videoCol = document.querySelector('.espaco-marca__video-col');
   const windowBox = document.querySelector('.espaco-marca__fotos-window');
-  const track = document.querySelector('.espaco-marca__foto-track');
+  const slides = document.querySelectorAll('.espaco-marca__foto-slide');
   
-  if (!root || !windowBox || !track) return null;
+  if (!root || !windowBox) return null;
 
   const video = root.querySelector('.espaco-marca__video-inner');
   if (video) {
@@ -20,77 +20,58 @@ export function initMarca() {
   }
 
   const contexto = gsap.context(() => {
-    // 1. Animação de Entrada: Vídeo entra pela esquerda, Fotos entram pela direita
+    // 1. Lógica de Entrada via CSS (toggleClass)
     if (header) {
-      gsap.from(header, {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: root,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
+      ScrollTrigger.create({
+        trigger: root,
+        start: 'top 80%',
+        toggleClass: { targets: header, className: 'visivel' },
+        once: true // Garante que a classe visivel fique
       });
     }
-
-    const isMobile = window.innerWidth < 1024;
 
     if (videoCol) {
-      gsap.from(videoCol, {
-        opacity: 0,
-        x: isMobile ? 0 : -80,
-        y: isMobile ? 30 : 0,
-        duration: 1.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: videoCol,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-    }
-
-    if (windowBox) {
-      gsap.from(windowBox, {
-        opacity: 0,
-        x: isMobile ? 0 : 80,
-        y: isMobile ? 30 : 0,
-        duration: 1.2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: windowBox,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-    }
-
-    // 2. Animação de Rolagem das Fotos (Pinned no Desktop, Fluido no Mobile)
-    if (!isMobile) {
       ScrollTrigger.create({
-        trigger: windowBox,
-        start: 'bottom bottom',
-        end: '+=1600',
-        pin: root,
-        scrub: 0.8,
-        animation: gsap.to(track, {
-          xPercent: -75,
-          ease: 'none',
-        }),
-        invalidateOnRefresh: true,
+        trigger: videoCol,
+        start: 'top 85%',
+        toggleClass: { targets: videoCol, className: 'visivel' },
+        once: true
       });
-    } else {
-      gsap.to(track, {
-        xPercent: -75,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: windowBox,
-          start: 'top 70%',
-          end: 'bottom 30%',
-          scrub: 0.8,
+    }
+
+    // A janela (windowBox) em si também pode receber transição se quiser
+    ScrollTrigger.create({
+      trigger: windowBox,
+      start: 'top 85%',
+      toggleClass: { targets: windowBox, className: 'visivel' },
+      once: true
+    });
+
+    // 2. O Pin e as Fotos: Conforme o usuário rola, as fotos vão aparecendo em cascata
+    // Usamos o progresso do ScrollTrigger para acionar as fotos
+    if (slides.length > 0) {
+      ScrollTrigger.create({
+        trigger: root, // Pinamos a seção inteira
+        start: 'top top',
+        end: '+=1500', // Altura do scroll para revelar todas as fotos
+        pin: true,
+        pinSpacing: true, // Mantemos o espaçamento para não quebrar a página (evita o problema da faixa por colapso)
+        onUpdate: (self) => {
+          const progresso = self.progress;
+          // Divide a revelação pelo número de fotos
+          const fatia = 1 / slides.length;
+          
+          slides.forEach((slide, index) => {
+            // Se o progresso ultrapassou a fatia deste slide, revela
+            if (progresso >= (index * fatia)) {
+              slide.classList.add('visivel');
+            } else {
+              // Mantém a foto inicial sempre visível
+              if (index !== 0) slide.classList.remove('visivel');
+            }
+          });
         },
+        invalidateOnRefresh: true,
       });
     }
   }, root);
