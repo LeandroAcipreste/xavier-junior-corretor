@@ -268,6 +268,26 @@
   letter-spacing: 0.05em;
 }
 
+/* A mesma listra dourada que marca o titulo da dobra, agora sob cada
+   objetivo: repetir o mesmo sinal amarra as partes numa familia so, em vez de
+   cada nivel ter um enfeite proprio.
+
+   48px, e nao os 60px do titulo da dobra: aquele acompanha um texto enorme, e
+   a mesma largura sob um titulo de 2,2rem ficaria pesada demais. Mesma
+   espessura e mesmo dourado - o que muda e so a escala, como convem a um
+   titulo subordinado.
+
+   Pseudo-elemento, e nao <div>: e enfeite, nao conteudo, e nao tem por que
+   existir na arvore que o leitor de tela percorre. */
+.principios__item-title::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin-top: 1.2rem;
+  background-color: var(--color-gold);
+}
+
 .principios__item-text {
   font-size: 1.8rem;
   line-height: 1.6;
