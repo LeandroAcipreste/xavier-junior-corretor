@@ -203,3 +203,15 @@
     font-size: 1.2rem;
   }
 }
+
+/* Estado vazio da vitrine. Estava como `style` dentro do template do JS. */
+.for-sale__vazio {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.for-sale__vazio-texto {
+  font-size: 1.6rem;
+}

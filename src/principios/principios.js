@@ -6,6 +6,9 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
  * Assim como no design-webHub de referência, delegamos ao próprio GSAP
  * a função de esconder e mostrar os elementos suavemente.
  */
+/* A cortina cobre a secao ate subir; depois nao pode mais interceptar clique. */
+const CLASSE_CORTINA_INERTE = 'principios__curtain-overlay--inerte';
+
 export function initPrincipios() {
   const section = document.querySelector('[data-module="principios"]');
   if (!section) return null;
@@ -28,7 +31,8 @@ export function initPrincipios() {
         toggleActions: 'play none none reverse',
       },
       onComplete: () => {
-        curtain.style.pointerEvents = 'none';
+        /* Subiu: sai do caminho do clique. Quem descreve isso e o CSS. */
+        curtain.classList.add(CLASSE_CORTINA_INERTE);
       },
     });
   }

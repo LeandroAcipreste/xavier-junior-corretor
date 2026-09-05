@@ -56,16 +56,16 @@
 
           <nav class="header__nav" aria-label="Navegacao principal">
             <div class="header__nav-item">
-              <a class="header__nav-link" href="#sobre"><span data-text="Sobre">Sobre</span></a>
+              <a class="header__nav-link" href="#sobre"><span class="header__nav-label" data-text="Sobre">Sobre</span></a>
             </div>
             <div class="header__nav-item">
-              <a class="header__nav-link" href="#comprar"><span data-text="Compre sua casa">Compre sua casa</span></a>
+              <a class="header__nav-link" href="#comprar"><span class="header__nav-label" data-text="Compre sua casa">Compre sua casa</span></a>
             </div>
             <div class="header__nav-item">
-              <a class="header__nav-link" href="#anunciar"><span data-text="Anuncie sua casa">Anuncie sua casa</span></a>
+              <a class="header__nav-link" href="#anunciar"><span class="header__nav-label" data-text="Anuncie sua casa">Anuncie sua casa</span></a>
             </div>
             <div class="header__nav-item">
-              <a class="header__nav-link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer"><span data-text="Agende uma visita">Agende uma visita</span></a>
+              <a class="header__nav-link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer"><span class="header__nav-label" data-text="Agende uma visita">Agende uma visita</span></a>
             </div>
           </nav>
 
@@ -73,7 +73,7 @@
             <a class="button-round button-round--primary header__login" href="#login">
               <span class="button-round__content">
                 <span class="button-round__text">
-                  <span data-text="Login">Login</span>
+                  <span class="button-round__label" data-text="Login">Login</span>
                 </span>
               </span>
             </a>
@@ -101,7 +101,7 @@
             <a class="button-round button-round--primary" href="#login">
               <span class="button-round__content">
                 <span class="button-round__text">
-                  <span data-text="Login">Login</span>
+                  <span class="button-round__label" data-text="Login">Login</span>
                 </span>
               </span>
             </a>
@@ -192,7 +192,7 @@
                 <a class="button-round button-round--primary" href="https://wa.me/5579999909229?text=Ol%C3%A1%20Xavier,%20gostaria%20de%20encontrar%20minha%20nova%20casa!" target="_blank" rel="noopener noreferrer">
                   <span class="button-round__content">
                     <span class="button-round__text">
-                      <span data-text="Encontre sua nova casa">Encontre sua nova casa</span>
+                      <span class="button-round__label" data-text="Encontre sua nova casa">Encontre sua nova casa</span>
                     </span>
                     <span class="button-round__icon">
                       <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -256,7 +256,7 @@
               <div class="sobre__texto">
                 <p class="sobre__saudacao">Olá, eu sou Xavier Júnior.</p>
                 <p class="sobre__paragrafo">
-                  Há <strong>mais de 30 anos</strong> eu faço a mesma coisa: coloco a chave da casa própria
+                  Há <strong class="sobre__destaque">mais de 30 anos</strong> eu faço a mesma coisa: coloco a chave da casa própria
                   na mão de quem sonhou com ela. Três décadas acompanhando cada etapa, da primeira visita
                   à assinatura do contrato, com o mesmo cuidado no primeiro imóvel de um casal e na
                   carteira de quem investe.
@@ -267,7 +267,7 @@
                   esse tempo de estrada que transforma uma venda em uma escolha certa.
                 </p>
                 <p class="sobre__paragrafo">
-                  Comprar, vender ou anunciar começa sempre por uma conversa. <strong>O resto eu conduzo
+                  Comprar, vender ou anunciar começa sempre por uma conversa. <strong class="sobre__destaque">O resto eu conduzo
                   com você.</strong>
                 </p>
               </div>
@@ -343,16 +343,16 @@
                   <div class="principios__item" data-principios="item">
                     <h3 class="principios__item-title">Pilares</h3>
                     <ul class="principios__pilares">
-                      <li>
-                        <strong>Legalidade e Clareza:</strong> Repúdio à ocultação de informações. 
+                      <li class="principios__pilar">
+                        <strong class="principios__pilar-termo">Legalidade e Clareza:</strong> Repúdio à ocultação de informações. 
                         A documentação e o estado real do imóvel são apresentados com total franqueza.
                       </li>
-                      <li>
-                        <strong>Diligência Profissional:</strong> Verificação rigorosa de certidões 
+                      <li class="principios__pilar">
+                        <strong class="principios__pilar-termo">Diligência Profissional:</strong> Verificação rigorosa de certidões 
                         e riscos inerentes, garantindo que o cliente tome decisões 100% conscientes e seguras.
                       </li>
-                      <li>
-                        <strong>Respeito e Retidão:</strong> Atuação justa e imparcial, honrando a 
+                      <li class="principios__pilar">
+                        <strong class="principios__pilar-termo">Respeito e Retidão:</strong> Atuação justa e imparcial, honrando a 
                         confiança depositada e defendendo os direitos de todas as partes envolvidas.
                       </li>
                     </ul>
@@ -369,7 +369,7 @@
       <!-- ================ MEU ESPAÇO ================ -->
       <section class="espaco-marca" id="meu-espaco">
         <div class="container espaco-marca__container">
-          <header class="espaco-marca__header">
+          <header class="espaco-marca__header entrada-titulo">
             <h2 class="espaco-marca__title">
               Meu<br><span class="em">Espaço</span>
             </h2>
@@ -380,7 +380,7 @@
           </header>
 
           <div class="espaco-marca__grid">
-            <div class="espaco-marca__video-col">
+            <div class="espaco-marca__video-col entrada-video">
               <div class="espaco-marca__video-wrapper">
                 <video 
                   class="espaco-marca__video-inner" 
@@ -396,12 +396,10 @@
             </div>
             <div class="espaco-marca__fotos-col">
               <div class="espaco-marca__fotos-window">
-                <div class="espaco-marca__foto-track">
-                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 1</span></div>
-                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 2</span></div>
-                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 3</span></div>
-                  <div class="espaco-marca__foto-placeholder"><span class="espaco-marca__placeholder-text">Foto 4</span></div>
-                </div>
+                <div class="espaco-marca__foto-slide visivel"><span class="espaco-marca__placeholder-text">Foto 1</span></div>
+                <div class="espaco-marca__foto-slide"><span class="espaco-marca__placeholder-text">Foto 2</span></div>
+                <div class="espaco-marca__foto-slide"><span class="espaco-marca__placeholder-text">Foto 3</span></div>
+                <div class="espaco-marca__foto-slide"><span class="espaco-marca__placeholder-text">Foto 4</span></div>
               </div>
             </div>
           </div>
@@ -451,27 +449,27 @@
           <nav class="rodape__coluna" aria-label="Navegacao do rodape">
             <p class="rodape__coluna-titulo">Navegue</p>
             <ul class="rodape__lista">
-              <li><a class="rodape__link" href="#sobre">Sobre</a></li>
-              <li><a class="rodape__link" href="#comprar">Compre sua casa</a></li>
-              <li><a class="rodape__link" href="#anunciar">Anuncie sua casa</a></li>
-              <li><a class="rodape__link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer">Agende uma visita</a></li>
+              <li class="rodape__item"><a class="rodape__link" href="#sobre">Sobre</a></li>
+              <li class="rodape__item"><a class="rodape__link" href="#comprar">Compre sua casa</a></li>
+              <li class="rodape__item"><a class="rodape__link" href="#anunciar">Anuncie sua casa</a></li>
+              <li class="rodape__item"><a class="rodape__link" href="https://wa.me/5579999909229?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20visita." target="_blank" rel="noopener noreferrer">Agende uma visita</a></li>
             </ul>
           </nav>
 
           <nav class="rodape__coluna" aria-label="Privacidade e dados">
             <p class="rodape__coluna-titulo">Privacidade</p>
             <ul class="rodape__lista">
-              <li>
+              <li class="rodape__item">
                 <a class="rodape__link" href="/src/pages/politica-de-privacidade.html">
                   Política de Privacidade
                 </a>
               </li>
-              <li>
+              <li class="rodape__item">
                 <a class="rodape__link" href="/src/pages/politica-de-privacidade.html#exclusao-de-dados">
                   Apagar meus dados
                 </a>
               </li>
-              <li>
+              <li class="rodape__item">
                 <button class="rodape__link" type="button" data-consent="reabrir" data-acao="reabrir">
                   Preferências de cookies
                 </button>
@@ -481,12 +479,12 @@
         </div>
 
         <div class="rodape__base">
-          <p>
+          <p class="rodape__base-texto">
             &copy; <span class="rodape__pendente">ANO</span>
             <span class="rodape__pendente">RAZÃO SOCIAL</span> &middot; CNPJ
             <span class="rodape__pendente">CNPJ</span>
           </p>
-          <p>Todos os direitos reservados.</p>
+          <p class="rodape__base-texto">Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
@@ -677,7 +675,7 @@
           <button type="submit" class="button-round button-round--primary anunciar-modal__submit">
             <span class="button-round__content">
               <span class="button-round__text">
-                <span>Enviar Proposta de Anúncio</span>
+                <span class="button-round__label">Enviar Proposta de Anúncio</span>
               </span>
             </span>
           </button>

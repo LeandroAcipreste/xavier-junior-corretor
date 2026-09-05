@@ -81,6 +81,11 @@
   will-change: transform;
 }
 
+/* Depois de subir, a cortina nao intercepta mais clique. */
+.principios__curtain-overlay--inerte {
+  pointer-events: none;
+}
+
 .principios__curtain-logo {
   max-width: 240px;
   width: 50%;

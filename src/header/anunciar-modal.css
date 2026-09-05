@@ -225,6 +225,12 @@
   margin-top: 1rem;
 }
 
+/* Estado visivel da mensagem. O JS so acrescenta a classe; a aparencia fica
+   aqui, que e onde ela pertence. */
+.anunciar-modal__success--visivel {
+  display: block;
+}
+
 .anunciar-modal__submit {
   width: 100%;
   margin-top: 1rem;

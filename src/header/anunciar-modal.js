@@ -1,7 +1,18 @@
 /**
  * MODAL ANUNCIE SUA CASA
  * Gerencia a abertura, fechamento e envio do formulário de anúncio de imóveis.
+ *
+ * O travamento da página vem de travar-scroll.js, e não de mexer no overflow
+ * do body: com o scroll suave ligado, quem rola a página é o Lenis, e o
+ * overflow do body não o segura - o fundo continuava rolando por trás do
+ * modal. O serviço para o motor e trava por classe, nessa ordem.
  */
+
+import { lockScroll, unlockScroll } from '../services/travar-scroll.js';
+import { adicionarProposta } from '../services/propostas.js';
+
+/* O CSS decide como a mensagem aparece; aqui so dizemos que ela apareceu. */
+const CLASSE_SUCESSO_VISIVEL = 'anunciar-modal__success--visivel';
 
 export function initAnunciarModal() {
   const overlay = document.getElementById('anunciar-modal-overlay');
@@ -22,13 +33,13 @@ export function initAnunciarModal() {
     if (e) e.preventDefault();
     overlay.classList.add('is-active');
     overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockScroll();
   };
 
   const closeModal = () => {
     overlay.classList.remove('is-active');
     overlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    unlockScroll();
   };
 
   // Botões de gatilho no header, menu mobile e rodapé
@@ -75,7 +86,7 @@ export function initAnunciarModal() {
         const thumb = document.createElement('div');
         thumb.className = 'anunciar-modal__thumb';
         thumb.innerHTML = `
-          <img src="${e.target.result}" alt="Foto ${index + 1}">
+          <img class="anunciar-modal__thumb-img" src="${e.target.result}" alt="Foto ${index + 1}">
           <button type="button" class="anunciar-modal__thumb-remove" data-index="${index}">&times;</button>
         `;
         thumbnailsContainer.appendChild(thumb);
@@ -157,13 +168,11 @@ export function initAnunciarModal() {
         status: 'Pendente',
       };
 
-      // Salva no localStorage para leitura pelo Painel do Xavier (/admin.html)
-      const propostasSalvas = JSON.parse(localStorage.getItem('propostas_anuncios') || '[]');
-      propostasSalvas.unshift(novaProposta);
-      localStorage.setItem('propostas_anuncios', JSON.stringify(propostasSalvas));
+      /* Quem sabe onde a proposta mora e o servico; aqui so a entregamos. */
+      adicionarProposta(novaProposta);
 
       if (successMessage) {
-        successMessage.style.display = 'block';
+        successMessage.classList.add(CLASSE_SUCESSO_VISIVEL);
       }
 
       form.reset();
@@ -172,7 +181,7 @@ export function initAnunciarModal() {
       if (submitBtn) submitBtn.disabled = false;
 
       setTimeout(() => {
-        if (successMessage) successMessage.style.display = 'none';
+        if (successMessage) successMessage.classList.remove(CLASSE_SUCESSO_VISIVEL);
         closeModal();
       }, 3500);
     });

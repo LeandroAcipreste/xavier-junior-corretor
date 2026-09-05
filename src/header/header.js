@@ -7,7 +7,7 @@
 
 import gsap from 'gsap';
 import { revealWords, fadeUp } from '../animations/reveal.js';
-import { lockScroll, unlockScroll } from '../services/scroll.js';
+import { lockScroll, unlockScroll } from '../services/travar-scroll.js';
 
 const MODULE_SELECTOR = '[data-module="header"]';
 const DESKTOP_QUERY = '(min-width: 768px)';
